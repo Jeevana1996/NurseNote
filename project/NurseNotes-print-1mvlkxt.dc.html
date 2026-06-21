@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style data-omelette-print-defaults>
+@media print {
+  @page { margin: 0; }
+  body { padding: 0.5in; box-sizing: border-box; }
+  h1, h2, h3, h4, h5, h6 { break-after: avoid; }
+  figure, table, pre, blockquote, img, svg, tr, [class~="card" i] { break-inside: avoid; }
+  img, svg { max-width: 100%; }
+  p { orphans: 3; widows: 3; }
+}
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;background:oklch(0.9 0.008 255);}
+body{font-family:'IBM Plex Sans',system-ui,sans-serif;color:oklch(0.27 0.02 260);-webkit-font-smoothing:antialiased;}
+::selection{background:oklch(0.85 0.05 235);}
+.nn-scroll::-webkit-scrollbar{width:8px;}
+.nn-scroll::-webkit-scrollbar-thumb{background:oklch(0.85 0.01 255);border-radius:99px;}
+@keyframes nnFlash{0%{background:oklch(0.93 0.05 235);}100%{background:transparent;}}
+@keyframes nnPulse{0%{box-shadow:0 0 0 0 oklch(0.6 0.18 25 / 0.45);}70%{box-shadow:0 0 0 18px oklch(0.6 0.18 25 / 0);}100%{box-shadow:0 0 0 0 oklch(0.6 0.18 25 / 0);}}
+@keyframes nnShimmer{0%{opacity:.45;}50%{opacity:.8;}100%{opacity:.45;}}
+@keyframes nnBlink{0%,100%{opacity:1;}50%{opacity:0;}}
+@keyframes nnRise{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@keyframes nnSlide{from{transform:translateX(100%);}to{transform:translateX(0);}}
+@keyframes nnSpin{to{transform:rotate(360deg);}}
+@keyframes nnPop{0%{transform:scale(.5);opacity:0;}60%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;}}
+</style>
+</helmet>
+<div style="position:fixed;inset:0;overflow:hidden;">
+<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale({{ scale }});transform-origin:center center;">
+<div style="width:1226px;height:866px;background:oklch(0.2 0.012 260);border-radius:42px;padding:16px;box-shadow:0 40px 90px oklch(0.2 0.02 260 / 0.4),inset 0 0 0 2px oklch(0.32 0.01 260);">
+<div style="position:relative;width:1194px;height:834px;background:oklch(0.975 0.004 255);border-radius:28px;overflow:hidden;display:flex;">
+
+<!-- ===================== LOGIN ===================== -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;width:100%;height:100%;animation:nnRise .4s both;">
+  <div style="width:46%;height:100%;background:linear-gradient(160deg,oklch(0.4 0.08 245),oklch(0.32 0.06 250));color:#fff;padding:56px 52px;display:flex;flex-direction:column;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:42px;height:42px;border-radius:12px;background:oklch(0.6 0.13 235);display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,13 7,13 9,6 12,18 15,11 17,13 22,13"></polyline></svg>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:20px;letter-spacing:-0.02em;">NurseNotes</div>
+        <div style="font-size:12px;opacity:.7;letter-spacing:.02em;">{{ hospital }}</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:34px;font-weight:700;line-height:1.15;letter-spacing:-0.03em;">La transmission,<br>dictée à voix haute.</div>
+      <div style="font-size:15px;opacity:.78;margin-top:18px;line-height:1.6;max-width:330px;">Dictez vos transmissions, l'application remplit automatiquement les bons champs de la fiche patient. Plus de double saisie.</div>
+    </div>
+    <div style="display:flex;gap:24px;">
+      <div><div style="font-family:'IBM Plex Mono';font-size:24px;font-weight:600;">93%</div><div style="font-size:11px;opacity:.65;max-width:120px;line-height:1.4;">des infirmiers prêts à l'adopter</div></div>
+      <div><div style="font-family:'IBM Plex Mono';font-size:24px;font-weight:600;">~2&nbsp;min</div><div style="font-size:11px;opacity:.65;max-width:120px;line-height:1.4;">gagnées par transmission</div></div>
+    </div>
+  </div>
+  <div style="flex:1;height:100%;display:flex;align-items:center;justify-content:center;padding:40px;">
+    <div style="width:340px;">
+      <div style="font-size:13px;font-weight:600;color:oklch(0.55 0.11 235);letter-spacing:.06em;text-transform:uppercase;">Portail soignant</div>
+      <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;margin-top:6px;">Connexion</div>
+      <div style="font-size:13px;color:oklch(0.52 0.015 260);margin-top:4px;">Service de Cardiologie · {{ hospital }}</div>
+      <div style="margin-top:26px;">
+        <div style="font-size:12px;font-weight:600;color:oklch(0.5 0.015 260);margin-bottom:6px;">Adresse électronique</div>
+        <div style="display:flex;align-items:center;height:46px;padding:0 14px;border:1px solid oklch(0.88 0.006 255);border-radius:10px;background:#fff;font-size:14px;color:oklch(0.3 0.015 260);">{{ email }}</div>
+      </div>
+      <div style="margin-top:14px;">
+        <div style="font-size:12px;font-weight:600;color:oklch(0.5 0.015 260);margin-bottom:6px;">Mot de passe</div>
+        <div style="display:flex;align-items:center;height:46px;padding:0 14px;border:1px solid oklch(0.88 0.006 255);border-radius:10px;background:#fff;font-size:18px;letter-spacing:3px;color:oklch(0.55 0.015 260);">••••••••</div>
+      </div>
+      <button onClick="{{ doLogin }}" style="margin-top:24px;width:100%;height:48px;border:none;border-radius:10px;background:oklch(0.55 0.11 235);color:#fff;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit;" style-hover="background:oklch(0.48 0.1 240);">Se connecter</button>
+      <div style="text-align:center;margin-top:16px;font-size:12px;color:oklch(0.6 0.012 260);">Transmissions nominatives · données chiffrées (RGPD)</div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ===================== SERVICE SELECT ===================== -->
+<sc-if value="{{ isService }}" hint-placeholder-val="{{ true }}">
+<div style="width:100%;height:100%;display:flex;flex-direction:column;animation:nnRise .35s both;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:22px 36px;border-bottom:1px solid oklch(0.92 0.006 255);">
+    <div style="display:flex;align-items:center;gap:11px;">
+      <div style="width:34px;height:34px;border-radius:9px;background:oklch(0.55 0.11 235);display:flex;align-items:center;justify-content:center;"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,13 7,13 9,6 12,18 15,11 17,13 22,13"></polyline></svg></div>
+      <div style="font-weight:700;font-size:16px;letter-spacing:-0.01em;">NurseNotes</div>
+      <div style="font-size:13px;color:oklch(0.58 0.012 260);border-left:1px solid oklch(0.88 0.006 255);padding-left:11px;">{{ hospital }}</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;font-size:13px;color:oklch(0.45 0.015 260);"><div style="width:28px;height:28px;border-radius:50%;background:oklch(0.9 0.04 235);color:oklch(0.45 0.11 240);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:12px;">OD</div>{{ nurse }}</div>
+  </div>
+  <div style="flex:1;padding:48px 56px;">
+    <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;">Bonjour Ophélie 👋</div>
+    <div style="font-size:14px;color:oklch(0.52 0.015 260);margin-top:6px;">Sélectionnez votre service pour accéder à vos transmissions.</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:32px;max-width:880px;">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="4">
+        <div onClick="{{ s.open }}" style="{{ s.cardStyle }}">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="width:38px;height:38px;border-radius:10px;background:{{ s.iconBg }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;color:{{ s.iconColor }};">{{ s.short }}</div>
+            <sc-if value="{{ s.locked }}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.7 0.01 260)" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg></sc-if>
+          </div>
+          <div style="font-weight:600;font-size:16px;margin-top:14px;">{{ s.name }}</div>
+          <div style="font-size:12px;color:oklch(0.58 0.012 260);margin-top:3px;">{{ s.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:28px;font-size:12px;color:oklch(0.62 0.012 260);max-width:620px;line-height:1.5;">Seul votre service est accessible. Les autres services restent verrouillés sauf réquisition exceptionnelle (manque de personnel).</div>
+  </div>
+</div>
+</sc-if>
+
+<!-- ===================== APP SHELL ===================== -->
+<sc-if value="{{ isAppShell }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;width:100%;height:100%;">
+  <!-- SIDEBAR -->
+  <div style="width:236px;height:100%;background:linear-gradient(180deg,oklch(0.36 0.06 248),oklch(0.3 0.05 252));color:#fff;display:flex;flex-direction:column;padding:22px 16px;flex:none;">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 6px 18px;">
+      <div style="width:32px;height:32px;border-radius:9px;background:oklch(0.6 0.13 235);display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,13 7,13 9,6 12,18 15,11 17,13 22,13"></polyline></svg></div>
+      <div><div style="font-weight:700;font-size:15px;letter-spacing:-0.01em;">NurseNotes</div><div style="font-size:10.5px;opacity:.6;">{{ hospital }}</div></div>
+    </div>
+    <div style="height:1px;background:oklch(1 0 0 / 0.12);margin:4px 0 14px;"></div>
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;opacity:.5;padding:0 8px 8px;">Cardiologie</div>
+    <div onClick="{{ goPatients }}" style="{{ navPatients }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 7h18M3 12h18M3 17h12"></path></svg>Patients du jour</div>
+    <div onClick="{{ goHistory }}" style="{{ navHistory }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>Historique</div>
+    <div onClick="{{ goColleagues }}" style="{{ navColleagues }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="8" r="3"></circle><path d="M3 20a6 6 0 0 1 12 0"></path><path d="M16 6a3 3 0 0 1 0 6M21 20a6 6 0 0 0-5-5.9"></path></svg>Mes collègues</div>
+    <div style="height:1px;background:oklch(1 0 0 / 0.12);margin:14px 0;"></div>
+    <div onClick="{{ openAssistant }}" style="display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:11px;cursor:pointer;background:oklch(0.6 0.13 235 / 0.18);border:1px solid oklch(0.6 0.13 235 / 0.4);font-size:13.5px;font-weight:600;" style-hover="background:oklch(0.6 0.13 235 / 0.3);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3a4 4 0 0 1 4 4c0 1.5-.8 2.3-1.5 3-.6.6-1 1.2-1 2.2"></path><path d="M11 17h2"></path><circle cx="12" cy="20.5" r="0.6" fill="currentColor"></circle></svg>Assistant médicaments</div>
+    <div style="flex:1;"></div>
+    <div style="display:flex;align-items:center;gap:11px;padding:10px 8px;border-radius:11px;background:oklch(1 0 0 / 0.08);">
+      <div style="width:34px;height:34px;border-radius:50%;background:oklch(0.6 0.13 235);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex:none;">OD</div>
+      <div style="min-width:0;"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ nurse }}</div><div style="font-size:10.5px;opacity:.6;">{{ nurseRole }}</div></div>
+      <div onClick="{{ logout }}" style="margin-left:auto;cursor:pointer;opacity:.6;" style-hover="opacity:1;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5M21 12H9"></path></svg></div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div style="flex:1;height:100%;min-width:0;position:relative;display:flex;flex-direction:column;">
+
+    <!-- ===== PATIENTS ===== -->
+    <sc-if value="{{ isPatients }}" hint-placeholder-val="{{ true }}">
+    <div class="nn-scroll" style="flex:1;overflow-y:auto;padding:30px 34px;animation:nnRise .3s both;">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+        <div>
+          <div style="font-size:23px;font-weight:700;letter-spacing:-0.02em;">Patients du jour</div>
+          <div style="font-size:13px;color:oklch(0.52 0.015 260);margin-top:3px;">{{ dateLabel }} · Transmissions pour l'équipe de l'après-midi</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;background:oklch(0.96 0.01 235);border:1px solid oklch(0.9 0.02 235);border-radius:999px;padding:8px 16px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.11 235)" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>
+          <span style="font-size:13px;color:oklch(0.4 0.05 240);font-weight:500;">Dites « <b>Ok connect</b> » ou touchez un patient</span>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:18px;">
+        <div style="flex:1;height:6px;background:oklch(0.92 0.006 255);border-radius:99px;overflow:hidden;"><div style="height:100%;width:{{ donePct }}%;background:oklch(0.6 0.1 150);border-radius:99px;transition:width .4s;"></div></div>
+        <div style="font-size:12.5px;color:oklch(0.5 0.015 260);font-weight:500;white-space:nowrap;">{{ doneCount }} / {{ totalCount }} effectuées</div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:20px;">
+        <sc-for list="{{ patients }}" as="p" hint-placeholder-count="8">
+          <div onClick="{{ p.open }}" style="background:#fff;border:1px solid oklch(0.91 0.006 255);border-radius:14px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:all .15s;" style-hover="border-color:oklch(0.55 0.11 235);box-shadow:0 6px 18px oklch(0.5 0.03 255 / 0.1);transform:translateY(-1px);">
+            <div style="width:52px;height:52px;border-radius:12px;background:{{ p.chamBg }};display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;">
+              <div style="font-size:9px;letter-spacing:.06em;color:{{ p.chamColor }};opacity:.7;">CH.</div>
+              <div style="font-family:'IBM Plex Mono';font-weight:600;font-size:18px;color:{{ p.chamColor }};line-height:1;">{{ p.chambre }}</div>
+            </div>
+            <div style="flex:1;min-width:0;">
+              <div style="display:flex;align-items:center;gap:8px;"><span style="font-weight:600;font-size:15.5px;">{{ p.name }}</span><span style="font-size:12px;color:oklch(0.6 0.012 260);">{{ p.age }} ans</span></div>
+              <div style="font-size:13px;color:oklch(0.5 0.015 260);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ p.motif }}</div>
+            </div>
+            <span style="{{ p.statusStyle }}">{{ p.statusLabel }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===== TRANSMISSION (HERO) ===== -->
+    <sc-if value="{{ isTransmission }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;width:100%;height:100%;">
+      <!-- sheet -->
+      <div style="flex:1;min-width:0;display:flex;flex-direction:column;">
+        <div style="display:flex;align-items:center;gap:14px;padding:18px 26px;border-bottom:1px solid oklch(0.92 0.006 255);background:#fff;">
+          <div onClick="{{ goPatients }}" style="cursor:pointer;width:34px;height:34px;border-radius:9px;border:1px solid oklch(0.9 0.006 255);display:flex;align-items:center;justify-content:center;flex:none;" style-hover="background:oklch(0.96 0.006 255);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="oklch(0.4 0.015 260)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg></div>
+          <div style="width:46px;height:46px;border-radius:11px;background:oklch(0.95 0.03 235);display:flex;flex-direction:column;align-items:center;justify-content:center;flex:none;"><div style="font-size:8px;color:oklch(0.5 0.1 240);">CH.</div><div style="font-family:'IBM Plex Mono';font-weight:600;font-size:16px;color:oklch(0.45 0.11 240);line-height:1;">{{ tx.chambre }}</div></div>
+          <div style="flex:1;min-width:0;">
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:18px;font-weight:700;letter-spacing:-0.01em;">{{ tx.name }}</span><span style="font-size:13px;color:oklch(0.58 0.012 260);">{{ tx.age }} ans</span></div>
+            <div style="font-size:13px;color:oklch(0.5 0.05 240);font-weight:500;">{{ tx.motif }}</div>
+          </div>
+          <sc-if value="{{ hasDraft }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:500;color:oklch(0.46 0.08 150);background:oklch(0.96 0.04 150);border:1px solid oklch(0.87 0.06 150);padding:6px 11px;border-radius:8px;white-space:nowrap;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Brouillon auto · {{ draftTime }}</div></sc-if>
+          <button onClick="{{ saveTransmission }}" style="{{ saveStyle }}">{{ saveLabel }}</button>
+        </div>
+        <div class="nn-scroll" style="flex:1;overflow-y:auto;padding:22px 26px;background:oklch(0.975 0.004 255);">
+          <sc-if value="{{ tx.reviewLowShow }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:flex-start;gap:11px;background:oklch(0.97 0.04 80);border:1px solid oklch(0.88 0.07 78);border-radius:11px;padding:12px 15px;margin-bottom:16px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.14 64)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px;"><path d="M12 9v4M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg><div><div style="font-weight:600;font-size:13.5px;color:oklch(0.45 0.12 60);">Relecture — reconnaissance vocale {{ tx.reviewPct }}</div><div style="font-size:12.5px;color:oklch(0.5 0.08 64);margin-top:2px;line-height:1.45;">Une zone, <b>surlignée en orange</b>, est à vérifier avant l'envoi au dossier patient. Les termes médicaux reconnus sont soulignés.</div></div></div></sc-if>
+          <sc-if value="{{ tx.reviewHighShow }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:flex-start;gap:11px;background:oklch(0.96 0.04 150);border:1px solid oklch(0.86 0.06 150);border-radius:11px;padding:12px 15px;margin-bottom:16px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.46 0.11 150)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px;"><path d="M20 6L9 17l-5-5"></path></svg><div><div style="font-weight:600;font-size:13.5px;color:oklch(0.42 0.1 150);">Relecture — reconnaissance vocale {{ tx.reviewPct }}</div><div style="font-size:12.5px;color:oklch(0.46 0.07 150);margin-top:2px;line-height:1.45;">Aucune zone à vérifier. Vous pouvez envoyer la transmission au dossier patient.</div></div></div></sc-if>
+          <sc-if value="{{ tx.faitBanner }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:9px;background:oklch(0.96 0.05 150);border:1px solid oklch(0.85 0.07 150);color:oklch(0.42 0.1 150);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:500;margin-bottom:16px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>Transmission enregistrée. Vous pouvez la re-dicter pour la mettre à jour.</div></sc-if>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+            <!-- Motif (pré-rempli) -->
+            <div style="grid-column:1 / -1;background:#fff;border:1px solid oklch(0.91 0.006 255);border-radius:13px;padding:15px 17px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px;"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">MOTIF D'ADMISSION</span><span style="font-size:10.5px;color:oklch(0.6 0.012 260);background:oklch(0.95 0.006 255);padding:2px 7px;border-radius:6px;">pré-enregistré</span></div>
+              <div style="font-size:15px;font-weight:500;">{{ tx.motif }}</div>
+            </div>
+            <!-- Antécédents -->
+            <div style="background:#fff;border:1px solid {{ tx.antBorder }};border-radius:13px;padding:15px 17px;transition:border-color .2s;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">ANTÉCÉDENTS</span><sc-if value="{{ tx.antBadgeShow }}" hint-placeholder-val="{{ true }}"><span style="{{ tx.antConfStyle }}">{{ tx.antConfLabel }}</span></sc-if></div>
+              <sc-if value="{{ tx.antFilled }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;line-height:1.5;animation:nnFlash 1.1s ease;"><sc-for list="{{ tx.antSegs }}" as="s" hint-placeholder-count="1"><span style="{{ s.style }}">{{ s.t }}</span></sc-for></div></sc-if>
+              <sc-if value="{{ tx.antEmpty }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:oklch(0.72 0.01 260);animation:nnShimmer 1.6s infinite;">En attente de dictée…</div></sc-if>
+            </div>
+            <!-- Traitements -->
+            <div style="background:#fff;border:1px solid {{ tx.traBorder }};border-radius:13px;padding:15px 17px;transition:border-color .2s;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">TRAITEMENTS EN COURS</span><sc-if value="{{ tx.traBadgeShow }}" hint-placeholder-val="{{ true }}"><span style="{{ tx.traConfStyle }}">{{ tx.traConfLabel }}</span></sc-if></div>
+              <sc-if value="{{ tx.traFilled }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;line-height:1.5;animation:nnFlash 1.1s ease;"><sc-for list="{{ tx.traSegs }}" as="s" hint-placeholder-count="1"><span style="{{ s.style }}">{{ s.t }}</span></sc-for></div></sc-if>
+              <sc-if value="{{ tx.traEmpty }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:oklch(0.72 0.01 260);animation:nnShimmer 1.6s infinite;">En attente de dictée…</div></sc-if>
+            </div>
+            <!-- Constantes -->
+            <div style="grid-column:1 / -1;background:#fff;border:1px solid {{ tx.constBorder }};border-radius:13px;padding:15px 17px;transition:border-color .2s;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:10px;"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">CONSTANTES DU JOUR</span><sc-if value="{{ tx.constBadgeShow }}" hint-placeholder-val="{{ true }}"><span style="{{ tx.constConfStyle }}">{{ tx.constConfLabel }}</span></sc-if></div>
+              <sc-if value="{{ tx.constFilled }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:12px;animation:nnFlash 1.1s ease;">
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.6 0.012 260);">TA</div><div style="font-family:'IBM Plex Mono';font-weight:600;font-size:18px;">{{ tx.ta }}</div></div>
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.6 0.012 260);">FC</div><div style="font-family:'IBM Plex Mono';font-weight:600;font-size:18px;">{{ tx.fc }}</div></div>
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.6 0.012 260);">SpO₂</div><div style="font-family:'IBM Plex Mono';font-weight:600;font-size:18px;color:{{ tx.spo2Color }};">{{ tx.spo2 }}</div></div>
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.6 0.012 260);">O₂</div><div style="font-family:'IBM Plex Mono';font-weight:600;font-size:14px;margin-top:4px;">{{ tx.o2 }}</div></div>
+                <div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:oklch(0.6 0.012 260);">Diurèse</div><div style="font-family:'IBM Plex Mono';font-weight:600;font-size:14px;margin-top:4px;">{{ tx.diurese }}</div></div>
+              </div>
+              </sc-if>
+              <sc-if value="{{ tx.constEmpty }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:oklch(0.72 0.01 260);animation:nnShimmer 1.6s infinite;">En attente de dictée…</div></sc-if>
+            </div>
+            <!-- Examens -->
+            <div style="grid-column:1 / -1;background:#fff;border:1px solid {{ tx.examBorder }};border-radius:13px;padding:15px 17px;transition:border-color .2s;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">EXAMENS / RÉSULTATS EN ATTENTE</span><sc-if value="{{ tx.examBadgeShow }}" hint-placeholder-val="{{ true }}"><span style="{{ tx.examConfStyle }}">{{ tx.examConfLabel }}</span></sc-if></div>
+              <sc-if value="{{ tx.examFilled }}" hint-placeholder-val="{{ true }}"><div style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.5;animation:nnFlash 1.1s ease;"><sc-if value="{{ tx.examAlert }}" hint-placeholder-val="{{ true }}"><span style="width:8px;height:8px;border-radius:50%;background:oklch(0.7 0.16 65);flex:none;"></span></sc-if><span><sc-for list="{{ tx.examSegs }}" as="s" hint-placeholder-count="1"><span style="{{ s.style }}">{{ s.t }}</span></sc-for></span></div></sc-if>
+              <sc-if value="{{ tx.examEmpty }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:oklch(0.72 0.01 260);animation:nnShimmer 1.6s infinite;">En attente de dictée…</div></sc-if>
+            </div>
+            <!-- Surveillance -->
+            <div style="grid-column:1 / -1;background:#fff;border:1px solid {{ tx.survBorder }};border-radius:13px;padding:15px 17px;transition:border-color .2s;">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;"><span style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">SURVEILLANCE & TRANSMISSIONS POUR LA RELÈVE</span><sc-if value="{{ tx.survBadgeShow }}" hint-placeholder-val="{{ true }}"><span style="{{ tx.survConfStyle }}">{{ tx.survConfLabel }}</span></sc-if></div>
+              <sc-if value="{{ tx.survFilled }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;line-height:1.55;animation:nnFlash 1.1s ease;"><sc-for list="{{ tx.survSegs }}" as="s" hint-placeholder-count="1"><span style="{{ s.style }}">{{ s.t }}</span></sc-for></div></sc-if>
+              <sc-if value="{{ tx.survEmpty }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:oklch(0.72 0.01 260);animation:nnShimmer 1.6s infinite;">En attente de dictée…</div></sc-if>
+            </div>
+          </div>
+          <div style="height:20px;"></div>
+        </div>
+      </div>
+
+      <!-- DICTATION RAIL -->
+      <div style="width:320px;flex:none;height:100%;background:oklch(0.31 0.05 252);color:#fff;display:flex;flex-direction:column;padding:22px 20px;">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.55;">Reconnaissance vocale</div>
+        <div style="font-size:15px;font-weight:600;margin-top:4px;">Dictée de la transmission</div>
+
+        <div style="margin-top:22px;display:flex;flex-direction:column;align-items:center;">
+          <div onClick="{{ micToggle }}" style="{{ micStyle }}">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M8 21h8"></path></svg>
+          </div>
+          <div style="font-size:13px;font-weight:500;margin-top:14px;opacity:.9;">{{ micLabel }}</div>
+          <sc-if value="{{ wake }}" hint-placeholder-val="{{ true }}"><div style="margin-top:8px;font-family:'IBM Plex Mono';font-size:12px;background:oklch(0.6 0.13 235 / 0.25);border:1px solid oklch(0.6 0.13 235 / 0.5);padding:4px 10px;border-radius:8px;">« Ok connect »</div></sc-if>
+        </div>
+
+        <div style="margin-top:22px;font-size:10.5px;text-transform:uppercase;letter-spacing:.1em;opacity:.5;">Transcription en direct</div>
+        <div class="nn-scroll" style="flex:1;margin-top:8px;background:oklch(0.26 0.04 254);border-radius:12px;padding:14px;overflow-y:auto;font-size:13.5px;line-height:1.6;">
+          <sc-if value="{{ hasTranscript }}" hint-placeholder-val="{{ true }}"><span>{{ transcript }}</span><sc-if value="{{ listening }}" hint-placeholder-val="{{ true }}"><span style="display:inline-block;width:2px;height:15px;background:oklch(0.7 0.13 235);margin-left:2px;vertical-align:-2px;animation:nnBlink 1s infinite;"></span></sc-if></sc-if>
+          <sc-if value="{{ noTranscript }}" hint-placeholder-val="{{ true }}"><span style="opacity:.4;">Touchez le micro et dictez votre transmission. Les champs se remplissent automatiquement.</span></sc-if>
+        </div>
+        <sc-if value="{{ activeLabel }}" hint-placeholder-val="{{ true }}"><div style="margin-top:10px;font-size:12px;display:flex;align-items:center;gap:7px;color:oklch(0.78 0.1 235);"><span style="width:6px;height:6px;border-radius:50%;background:oklch(0.7 0.13 235);"></span>Remplissage : {{ activeLabel }}</div></sc-if>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ===== HISTORY ===== -->
+    <sc-if value="{{ isHistory }}" hint-placeholder-val="{{ true }}">
+    <div class="nn-scroll" style="flex:1;overflow-y:auto;padding:30px 34px;animation:nnRise .3s both;">
+      <div style="font-size:23px;font-weight:700;letter-spacing:-0.02em;">Historique des transmissions</div>
+      <div style="font-size:13px;color:oklch(0.52 0.015 260);margin-top:3px;">Vos transmissions, consultables jusqu'à 1 an en arrière.</div>
+      <div style="display:inline-flex;gap:4px;margin-top:18px;background:oklch(0.94 0.006 255);border-radius:10px;padding:4px;">
+        <div onClick="{{ histMonth }}" style="{{ histMonthStyle }}">Ce mois-ci</div>
+        <div onClick="{{ histYear }}" style="{{ histYearStyle }}">Sur l'année</div>
+      </div>
+      <sc-if value="{{ histIsMonth }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px;max-width:760px;">
+        <sc-for list="{{ historyEntries }}" as="h" hint-placeholder-count="5">
+          <div style="background:#fff;border:1px solid oklch(0.91 0.006 255);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:16px;">
+            <div style="font-family:'IBM Plex Mono';font-size:13px;color:oklch(0.5 0.015 260);width:62px;flex:none;">{{ h.date }}</div>
+            <div style="width:40px;height:40px;border-radius:10px;background:oklch(0.95 0.02 235);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono';font-weight:600;font-size:13px;color:oklch(0.45 0.11 240);flex:none;">{{ h.chambre }}</div>
+            <div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:14.5px;">{{ h.name }}</div><div style="font-size:12.5px;color:oklch(0.52 0.015 260);">{{ h.motif }}</div></div>
+            <div style="font-size:12px;color:oklch(0.6 0.012 260);">{{ h.shift }}</div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+      <sc-if value="{{ histIsYear }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:760px;">
+        <sc-for list="{{ historyMonths }}" as="m" hint-placeholder-count="12">
+          <div style="background:#fff;border:1px solid oklch(0.91 0.006 255);border-radius:12px;padding:16px;">
+            <div style="font-size:13px;font-weight:600;text-transform:capitalize;">{{ m.label }}</div>
+            <div style="font-family:'IBM Plex Mono';font-size:22px;font-weight:600;color:oklch(0.55 0.11 235);margin-top:8px;">{{ m.count }}</div>
+            <div style="font-size:11px;color:oklch(0.6 0.012 260);">transmissions</div>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- ===== COLLEAGUES ===== -->
+    <sc-if value="{{ isColleagues }}" hint-placeholder-val="{{ true }}">
+    <div class="nn-scroll" style="flex:1;overflow-y:auto;padding:30px 34px;animation:nnRise .3s both;">
+      <div style="font-size:23px;font-weight:700;letter-spacing:-0.02em;">Transmissions des collègues</div>
+      <div style="font-size:13px;color:oklch(0.52 0.015 260);margin-top:3px;">Équipe présente le {{ dateLabel }} · consultation seule (non modifiable).</div>
+      <div style="display:flex;gap:20px;margin-top:22px;align-items:flex-start;">
+        <div style="width:240px;flex:none;display:flex;flex-direction:column;gap:8px;">
+          <sc-for list="{{ colleagues }}" as="c" hint-placeholder-count="3">
+            <div onClick="{{ c.open }}" style="{{ c.style }}">
+              <div style="width:36px;height:36px;border-radius:50%;background:{{ c.avBg }};color:{{ c.avColor }};display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex:none;">{{ c.initials }}</div>
+              <div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:14px;">{{ c.name }}</div><div style="font-size:11.5px;color:oklch(0.58 0.012 260);">{{ c.count }} transmissions</div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;color:oklch(0.5 0.015 260);margin-bottom:10px;">Transmissions de <b>{{ colleagueName }}</b> · {{ dateLabel }}</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ colleagueEntries }}" as="e" hint-placeholder-count="4">
+              <div style="background:#fff;border:1px solid oklch(0.91 0.006 255);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:16px;">
+                <div style="width:40px;height:40px;border-radius:10px;background:oklch(0.96 0.006 255);display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono';font-weight:600;font-size:13px;color:oklch(0.45 0.015 260);flex:none;">{{ e.chambre }}</div>
+                <div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:14.5px;">{{ e.name }}</div><div style="font-size:12.5px;color:oklch(0.52 0.015 260);">{{ e.note }}</div></div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.7 0.01 260)" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+
+  <!-- ===== MEDICATION ASSISTANT PANEL ===== -->
+  <sc-if value="{{ assistantOpen }}" hint-placeholder-val="{{ true }}">
+  <div onClick="{{ closeAssistant }}" style="position:absolute;inset:0;background:oklch(0.2 0.02 260 / 0.35);z-index:40;"></div>
+  <div style="position:absolute;top:0;right:0;width:400px;height:100%;background:#fff;z-index:41;box-shadow:-20px 0 60px oklch(0.2 0.02 260 / 0.2);display:flex;flex-direction:column;animation:nnSlide .3s cubic-bezier(.2,.7,.3,1) both;">
+    <div style="padding:20px 22px;border-bottom:1px solid oklch(0.92 0.006 255);">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="display:flex;align-items:center;gap:10px;"><div style="width:30px;height:30px;border-radius:8px;background:oklch(0.55 0.11 235);display:flex;align-items:center;justify-content:center;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M12 3a4 4 0 0 1 4 4c0 1.5-.8 2.3-1.5 3-.6.6-1 1.2-1 2.2M11 17h2"></path><circle cx="12" cy="20.5" r="0.7" fill="#fff"></circle></svg></div><div style="font-weight:700;font-size:16px;">Assistant médicaments</div></div>
+        <div onClick="{{ closeAssistant }}" style="cursor:pointer;color:oklch(0.5 0.015 260);" style-hover="color:oklch(0.3 0.02 260);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"></path></svg></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;margin-top:14px;border:1px solid oklch(0.89 0.006 255);border-radius:10px;padding:0 12px;height:42px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="oklch(0.55 0.11 235)" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="9" rx="3"></rect><path d="M6 10a6 6 0 0 0 12 0M12 16v3"></path></svg>
+        <input value="{{ query }}" onChange="{{ setQuery }}" placeholder="Dictez ou tapez un médicament…" style="flex:1;border:none;outline:none;font-family:inherit;font-size:14px;background:transparent;color:oklch(0.27 0.02 260);" />
+        <button onClick="{{ submitQuery }}" style="border:none;background:oklch(0.55 0.11 235);color:#fff;font-weight:600;font-size:13px;padding:7px 12px;border-radius:8px;cursor:pointer;font-family:inherit;">OK</button>
+      </div>
+      <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;">
+        <sc-for list="{{ drugChips }}" as="d" hint-placeholder-count="4"><div onClick="{{ d.open }}" style="{{ d.style }}">{{ d.label }}</div></sc-for>
+      </div>
+    </div>
+    <div class="nn-scroll" style="flex:1;overflow-y:auto;padding:20px 22px;">
+      <div style="font-size:18px;font-weight:700;letter-spacing:-0.01em;">{{ drug.name }}</div>
+      <div style="display:inline-block;font-size:12px;font-weight:500;color:oklch(0.45 0.1 240);background:oklch(0.95 0.03 235);padding:3px 10px;border-radius:7px;margin-top:8px;">{{ drug.classe }}</div>
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:14px;">
+        <div><div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">POSOLOGIE USUELLE</div><div style="font-size:14px;line-height:1.5;margin-top:5px;">{{ drug.poso }}</div></div>
+        <div><div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">VOIE / ADMINISTRATION</div><div style="font-size:14px;line-height:1.5;margin-top:5px;">{{ drug.voie }}</div></div>
+        <div><div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.015 260);">EFFETS INDÉSIRABLES</div><div style="font-size:14px;line-height:1.5;margin-top:5px;">{{ drug.effets }}</div></div>
+        <div style="background:oklch(0.97 0.02 65);border:1px solid oklch(0.9 0.05 70);border-radius:11px;padding:13px 15px;"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:oklch(0.55 0.1 65);">À SURVEILLER</div><div style="font-size:14px;line-height:1.5;margin-top:5px;color:oklch(0.4 0.06 65);">{{ drug.surv }}</div></div>
+      </div>
+    </div>
+    <div style="padding:13px 22px;border-top:1px solid oklch(0.92 0.006 255);font-size:11.5px;color:oklch(0.6 0.012 260);line-height:1.45;display:flex;gap:8px;align-items:flex-start;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="oklch(0.6 0.012 260)" stroke-width="2" style="flex:none;margin-top:1px;"><circle cx="12" cy="12" r="9"></circle><path d="M12 8h.01M11 12h1v4h1"></path></svg>Informations générées par IA à titre indicatif. À vérifier dans le Vidal / protocole du service avant administration.</div>
+  </div>
+  </sc-if>
+
+  <!-- ===== DPI SEND MODAL ===== -->
+  <sc-if value="{{ dpiModal }}" hint-placeholder-val="{{ true }}">
+  <div style="position:absolute;inset:0;background:oklch(0.2 0.02 260 / 0.5);z-index:50;display:flex;align-items:center;justify-content:center;animation:nnRise .25s both;">
+    <div style="width:440px;background:#fff;border-radius:18px;padding:30px 30px 26px;box-shadow:0 30px 80px oklch(0.2 0.02 260 / 0.35);">
+
+      <sc-if value="{{ dpiSending }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="width:54px;height:54px;border-radius:50%;border:4px solid oklch(0.9 0.03 235);border-top-color:oklch(0.55 0.11 235);animation:nnSpin .8s linear infinite;"></div>
+        <div style="font-size:17px;font-weight:700;margin-top:18px;">Envoi de la transmission</div>
+        <div style="font-size:13px;color:oklch(0.55 0.015 260);margin-top:3px;">Intégration au dossier patient informatisé…</div>
+      </div>
+      <div style="margin-top:22px;display:flex;flex-direction:column;gap:11px;">
+        <div style="display:flex;align-items:center;gap:11px;font-size:13.5px;color:oklch(0.35 0.02 260);"><span style="width:22px;height:22px;border-radius:50%;background:oklch(0.55 0.13 150);display:flex;align-items:center;justify-content:center;flex:none;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></span>Transmission enregistrée</div>
+        <div style="display:flex;align-items:center;gap:11px;font-size:13.5px;color:oklch(0.35 0.02 260);font-weight:600;"><span style="width:22px;height:22px;border-radius:50%;border:2.5px solid oklch(0.85 0.03 235);border-top-color:oklch(0.55 0.11 235);animation:nnSpin .8s linear infinite;flex:none;"></span>Envoi au dossier patient (DPI)</div>
+        <div style="display:flex;align-items:center;gap:11px;font-size:13.5px;color:oklch(0.72 0.01 260);"><span style="width:22px;height:22px;border-radius:50%;border:2px solid oklch(0.88 0.006 255);flex:none;"></span>Notification à l'équipe de l'après-midi</div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ dpiDone }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="width:60px;height:60px;border-radius:50%;background:oklch(0.95 0.05 150);display:flex;align-items:center;justify-content:center;animation:nnPop .4s cubic-bezier(.2,.8,.3,1.2) both;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="oklch(0.5 0.13 150)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg></div>
+        <div style="font-size:18px;font-weight:700;margin-top:16px;">Transmission intégrée au DPI</div>
+        <div style="font-size:13.5px;color:oklch(0.5 0.015 260);margin-top:4px;line-height:1.5;">Le dossier de <b>{{ dpiPatient }}</b> (chambre {{ dpiChambre }}) a été mis à jour.<br>Visible par toute l'équipe soignante.</div>
+      </div>
+      <div style="margin-top:20px;background:oklch(0.97 0.004 255);border:1px solid oklch(0.92 0.006 255);border-radius:11px;padding:12px 15px;display:flex;flex-direction:column;gap:7px;">
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:oklch(0.55 0.015 260);">Référence DPI</span><span style="font-family:'IBM Plex Mono';font-weight:600;">{{ dpiRef }}</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span style="color:oklch(0.55 0.015 260);">Horodatage</span><span style="font-family:'IBM Plex Mono';font-weight:600;">20/07/2023 · {{ dpiTime }}</span></div>
+      </div>
+      <button onClick="{{ finishDpi }}" style="margin-top:20px;width:100%;height:46px;border:none;border-radius:11px;background:oklch(0.55 0.11 235);color:#fff;font-weight:600;font-size:14.5px;cursor:pointer;font-family:inherit;">Retour aux patients</button>
+      </sc-if>
+
+      <sc-if value="{{ dpiError }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="width:60px;height:60px;border-radius:50%;background:oklch(0.95 0.06 50);display:flex;align-items:center;justify-content:center;animation:nnPop .4s cubic-bezier(.2,.8,.3,1.2) both;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="oklch(0.58 0.16 45)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"></path></svg></div>
+        <div style="font-size:18px;font-weight:700;margin-top:16px;">Envoi au DPI interrompu</div>
+        <div style="font-size:13.5px;color:oklch(0.5 0.015 260);margin-top:4px;line-height:1.5;">La connexion au serveur du dossier patient a été perdue.</div>
+      </div>
+      <div style="margin-top:18px;background:oklch(0.96 0.05 150);border:1px solid oklch(0.86 0.07 150);border-radius:11px;padding:12px 15px;display:flex;gap:10px;align-items:flex-start;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(0.45 0.11 150)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px;"><path d="M20 6L9 17l-5-5"></path></svg>
+        <div style="font-size:12.5px;color:oklch(0.4 0.08 150);line-height:1.5;"><b>Aucune donnée perdue.</b> La transmission est sauvegardée en local (brouillon) et sera synchronisée automatiquement à la reconnexion.</div>
+      </div>
+      <div style="margin-top:18px;display:flex;gap:10px;">
+        <button onClick="{{ keepDraft }}" style="flex:1;height:46px;border:1px solid oklch(0.88 0.006 255);border-radius:11px;background:#fff;color:oklch(0.4 0.015 260);font-weight:600;font-size:13.5px;cursor:pointer;font-family:inherit;">Conserver le brouillon</button>
+        <button onClick="{{ retryDpi }}" style="flex:1;height:46px;border:none;border-radius:11px;background:oklch(0.55 0.11 235);color:#fff;font-weight:600;font-size:13.5px;cursor:pointer;font-family:inherit;">Réessayer l'envoi</button>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</sc-if>
+
+</div>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1226,&quot;height&quot;:866},&quot;afficherConfiance&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;simulerErreurDpi&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = {
+    view: 'login',
+    selectedId: null,
+    listening: false, wake: false, complete: false,
+    transcript: '', filled: {}, activeField: null,
+    assistantOpen: false, assistantKey: 'furosemide', query: '',
+    histView: 'month', colleagueId: 'sophie',
+    saveStep:'idle', savedAt:null, dpiRef:'',
+    scale: 1,
+    patients: [
+      { id:'p1', chambre:'12', civ:'M.', name:'Bernard Lefèvre', age:72, status:'a_faire',
+        motif:'Insuffisance cardiaque décompensée',
+        antecedents:'HTA · Fibrillation auriculaire (ACFA)',
+        traitements:'Furosémide 40 mg · Bisoprolol 5 mg',
+        constantes:{ta:'11/7',fc:'88',spo2:'94',o2:'2 L O₂',diurese:'1200 mL / 12h'},
+        examens:'Bilan sanguin réalisé ce matin — résultats à récupérer', examAlert:true,
+        surveillance:'Patient stable. Surveiller la prise de poids et les œdèmes des membres inférieurs.',
+        dict:'Monsieur Lefèvre chambre 12 admis pour insuffisance cardiaque décompensée. Antécédents d\'hypertension artérielle et de fibrillation auriculaire. Traitement en cours par Furosémide 40 milligrammes et Bisoprolol 5 milligrammes. Tension 11 sur 7, fréquence cardiaque 88, saturation 94 pour cent sous 2 litres. Diurèse 1200 millilitres sur 12 heures. Bilan sanguin réalisé ce matin, résultats en attente, penser à les récupérer à la relève. Patient stable, surveiller la prise de poids et les œdèmes des membres inférieurs.',
+        steps:[{f:'antecedents',trig:'auriculaire'},{f:'traitements',trig:'Bisoprolol 5 milligrammes'},{f:'constantes',trig:'12 heures'},{f:'examens',trig:'relève'},{f:'surveillance',trig:'inférieurs'}] },
+      { id:'p2', chambre:'13', civ:'Mme', name:'Jacqueline Morel', age:81, status:'a_faire',
+        motif:'Fibrillation auriculaire rapide',
+        antecedents:'AVC ischémique (2019)',
+        traitements:'Apixaban · Amiodarone',
+        constantes:{ta:'13/8',fc:'110',spo2:'96',o2:'AA',diurese:'Correcte'},
+        examens:'ECG de contrôle à prévoir cet après-midi', examAlert:false,
+        surveillance:'Surveiller la fréquence cardiaque. Signaler toute douleur thoracique.',
+        dict:'Madame Morel chambre 13 fibrillation auriculaire rapide. Antécédents d\'AVC ischémique en 2019. Traitement par Apixaban et Amiodarone. Tension 13 sur 8, fréquence cardiaque 110, saturation 96. Diurèse correcte. ECG de contrôle à prévoir cet après-midi. Surveiller la fréquence et signaler toute douleur thoracique.',
+        steps:[{f:'antecedents',trig:'en 2019'},{f:'traitements',trig:'Amiodarone'},{f:'constantes',trig:'correcte'},{f:'examens',trig:'après-midi'},{f:'surveillance',trig:'thoracique'}] },
+      { id:'p3', chambre:'14', civ:'M.', name:'Antoine Girard', age:64, status:'a_faire',
+        motif:'SCA ST+ — post-angioplastie (J1)',
+        antecedents:'Tabagisme actif · Dyslipidémie',
+        traitements:'Aspirine · Ticagrelor · Atorvastatine',
+        constantes:{ta:'12/7',fc:'72',spo2:'98',o2:'AA',diurese:'—'},
+        examens:'Point de ponction radial propre, sans hématome', examAlert:false,
+        surveillance:'Surveiller le point de ponction et la douleur thoracique.',
+        dict:'Monsieur Girard chambre 14 syndrome coronarien post-angioplastie à J1. Antécédents de tabagisme et dyslipidémie. Traitement par Aspirine, Ticagrelor et Atorvastatine. Tension 12 sur 7, fréquence 72, saturation 98. Point de ponction radial propre sans hématome. Surveiller le point de ponction et la douleur thoracique.',
+        steps:[{f:'antecedents',trig:'dyslipidémie'},{f:'traitements',trig:'Atorvastatine'},{f:'constantes',trig:'saturation 98'},{f:'examens',trig:'hématome'},{f:'surveillance',trig:'thoracique'}] },
+      { id:'p4', chambre:'15', civ:'Mme', name:'Christine Petit', age:77, status:'a_faire',
+        motif:'Œdème aigu du poumon (résolutif)',
+        antecedents:'Insuffisance cardiaque chronique',
+        traitements:'Furosémide IV · Oxygénothérapie',
+        constantes:{ta:'14/9',fc:'96',spo2:'91',o2:'3 L O₂',diurese:'1800 mL / 12h'},
+        examens:'Gaz du sang de contrôle en attente', examAlert:true,
+        surveillance:'Surveiller la saturation et la dyspnée.',
+        dict:'Madame Petit chambre 15 œdème aigu du poumon résolutif. Antécédents d\'insuffisance cardiaque chronique. Traitement par Furosémide intraveineux et oxygénothérapie. Tension 14 sur 9, fréquence 96, saturation 91 sous 3 litres. Diurèse 1800 millilitres sur 12 heures. Gaz du sang de contrôle en attente. Surveiller la saturation et la dyspnée.',
+        steps:[{f:'antecedents',trig:'chronique'},{f:'traitements',trig:'oxygénothérapie'},{f:'constantes',trig:'12 heures'},{f:'examens',trig:'Gaz du sang'},{f:'surveillance',trig:'dyspnée'}] },
+      { id:'p5', chambre:'16', civ:'M.', name:'Henri Rousseau', age:69, status:'fait',
+        motif:'Péricardite aiguë', antecedents:'Épisode viral récent',
+        traitements:'Colchicine · Ibuprofène',
+        constantes:{ta:'12/8',fc:'80',spo2:'98',o2:'AA',diurese:'—'},
+        examens:'Écho cœur réalisée — pas d\'épanchement significatif', examAlert:false,
+        surveillance:'Douleur soulagée. Surveiller la fièvre.', dict:'', steps:[] },
+      { id:'p6', chambre:'17', civ:'Mme', name:'Nadia Benali', age:58, status:'fait',
+        motif:'Poussée hypertensive', antecedents:'HTA · Diabète de type 2',
+        traitements:'Amlodipine · Ramipril',
+        constantes:{ta:'16/10',fc:'78',spo2:'99',o2:'AA',diurese:'Correcte'},
+        examens:'Bilan rénal réalisé — résultats normaux', examAlert:false,
+        surveillance:'TA en baisse. Contrôle tensionnel toutes les 4h.', dict:'', steps:[] },
+      { id:'p7', chambre:'18', civ:'M.', name:'Paul Mercier', age:75, status:'fait',
+        motif:'Post-pose pacemaker (J1)', antecedents:'BAV complet',
+        traitements:'Antalgiques · Antibioprophylaxie',
+        constantes:{ta:'13/8',fc:'70',spo2:'97',o2:'AA',diurese:'—'},
+        examens:'Radio thorax de contrôle — sonde en place', examAlert:false,
+        surveillance:'Pansement propre. Bras gauche au repos.', dict:'', steps:[] },
+      { id:'p8', chambre:'19', civ:'Mme', name:'Lucie Faure', age:66, status:'fait',
+        motif:'Bilan douleur thoracique atypique', antecedents:'Anxiété · RGO',
+        traitements:'Surveillance · Antalgiques si besoin',
+        constantes:{ta:'12/7',fc:'74',spo2:'99',o2:'AA',diurese:'—'},
+        examens:'Troponines négatives x2 — ECG normal', examAlert:false,
+        surveillance:'Douleur résolue. Sortie envisagée demain.', dict:'', steps:[] },
+    ],
+    drugs: {
+      furosemide:{name:'Furosémide (Lasilix)',classe:'Diurétique de l\'anse',poso:'20 à 40 mg/jour, à adapter selon la diurèse et le poids.',voie:'Per os ou IV lente. Ne pas injecter trop vite.',effets:'Hypokaliémie, déshydratation, hypotension, hyperuricémie.',surv:'Ionogramme (kaliémie), diurèse, poids quotidien, tension artérielle.'},
+      enoxaparine:{name:'Énoxaparine (Lovenox)',classe:'HBPM — anticoagulant',poso:'Préventif : 4000 UI/jour en 1 injection. Curatif : selon le poids.',voie:'Sous-cutanée, pli abdominal latéral. Ne pas purger la bulle d\'air.',effets:'Risque hémorragique, thrombopénie induite (TIH), hématome au point d\'injection.',surv:'Plaquettes (2x/sem), signes de saignement, anti-Xa si besoin.'},
+      bisoprolol:{name:'Bisoprolol',classe:'Bêta-bloquant cardiosélectif',poso:'1,25 à 10 mg/jour en une prise le matin.',voie:'Orale. Ne pas arrêter brutalement.',effets:'Bradycardie, hypotension, fatigue, refroidissement des extrémités.',surv:'Fréquence cardiaque (ne pas administrer si FC < 50), tension artérielle.'},
+      amiodarone:{name:'Amiodarone (Cordarone)',classe:'Anti-arythmique classe III',poso:'200 mg/jour en entretien. Dose de charge selon protocole.',voie:'PO ou IV (voie centrale si perfusion prolongée).',effets:'Dysthyroïdie, photosensibilité, allongement du QT, dépôts cornéens.',surv:'ECG (QT), bilan thyroïdien (TSH), bilan hépatique.'},
+    },
+  };
+
+  componentDidMount(){ this._fit = () => this.fit(); window.addEventListener('resize', this._fit); this._ro = new ResizeObserver(()=>this.fit()); this._ro.observe(document.documentElement); this.fit(); requestAnimationFrame(()=>this.fit()); }
+  componentWillUnmount(){ this.clearDict(); this.clearDpi(); window.removeEventListener('resize', this._fit); if(this._ro) this._ro.disconnect(); }
+  fit(){ const W=1226+32, H=866+32; const de=document.documentElement; const w=de.clientWidth||window.innerWidth||0; const h=de.clientHeight||window.innerHeight||0; if(!w||!h){ requestAnimationFrame(()=>this.fit()); return; } const s=Math.min(1, w/W, h/H); if(s!==this.state.scale) this.setState({scale:s}); }
+
+  cur(){ return this.state.patients.find(p=>p.id===this.state.selectedId); }
+  isFait(){ const p=this.cur(); return p && p.status==='fait'; }
+  fieldFilled(name){ if(this.isFait()) return true; return name==='constantes' ? !!this.state.filled.constantes : (this.state.filled[name]!=null); }
+  _now(){ try{ return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }catch(e){ return '14:31'; } }
+  flagOf(id){ return ({p1:'ACFA',p2:'Amiodarone',p3:'Ticagrelor',p4:'Gaz du sang'})[id]||null; }
+  segs(text, flag, showConf){
+    if(!text) return [{t:'',style:''}];
+    if(!showConf) return [{t:text,style:''}];
+    const terms=['Furosémide IV','Furosémide','Bisoprolol','Apixaban','Amiodarone','Atorvastatine','Aspirine','Ticagrelor','Amlodipine','Ramipril','Colchicine','Ibuprofène','Fibrillation auriculaire','AVC ischémique','Insuffisance cardiaque','oxygénothérapie','dyslipidémie','troponines','œdèmes','dyspnée','HTA','ACFA','SCA','BAV','RGO'];
+    const marks=[];
+    const push=(term,kind)=>{ if(!term) return; let i=text.indexOf(term); while(i>=0){ marks.push({s:i,e:i+term.length,kind}); i=text.indexOf(term,i+term.length);} };
+    terms.forEach(t=>push(t,'term')); push(flag,'flag');
+    marks.sort((a,b)=> a.s-b.s || (a.kind==='flag'?-1:b.kind==='flag'?1:0) || (b.e-b.s)-(a.e-a.s));
+    const keep=[]; let last=0; for(const m of marks){ if(m.s>=last){ keep.push(m); last=m.e; } }
+    const out=[]; let pos=0;
+    for(const m of keep){ if(m.s>pos) out.push({t:text.slice(pos,m.s),style:''}); out.push({t:text.slice(m.s,m.e),style:this.segStyle(m.kind)}); pos=m.e; }
+    if(pos<text.length) out.push({t:text.slice(pos),style:''});
+    return out;
+  }
+  segStyle(k){ return k==='flag'
+    ? 'background:oklch(0.93 0.09 82);box-shadow:inset 0 -2px 0 oklch(0.72 0.16 66);border-radius:3px;padding:0 2px;font-weight:600;'
+    : 'border-bottom:1.5px solid oklch(0.8 0.08 235);'; }
+  confStyle(low){ const b='font-size:10px;font-weight:600;letter-spacing:.01em;padding:2px 8px;border-radius:7px;white-space:nowrap;'; return low? b+'background:oklch(0.95 0.06 78);color:oklch(0.5 0.13 64);' : b+'background:oklch(0.95 0.04 150);color:oklch(0.44 0.1 150);'; }
+
+  openPatient(id){ this.clearDict(); this.clearDpi(); this.setState({view:'transmission',selectedId:id,listening:false,wake:false,complete:false,transcript:'',filled:{},activeField:null,saveStep:'idle',savedAt:null}); }
+  clearDict(){ if(this._dict){ clearTimeout(this._dict); this._dict=null; } if(this._dict2){ clearTimeout(this._dict2); this._dict2=null; } }
+
+  micToggle(){ if(this.state.listening){ this.stopDictation(); } else { this.startDictation(); } }
+  startDictation(){
+    const p=this.cur(); if(!p) return;
+    const dict = p.dict || (p.civ+' '+p.name+' chambre '+p.chambre+'. '+p.motif+'.');
+    this.clearDict();
+    this.setState({listening:true,wake:true,complete:false,transcript:'',filled:{},activeField:null});
+    // The runtime cancels rapid timer chains, so dictation runs as two updates:
+    // wake-word pulse, then a single reveal that streams the transcript + fills every field.
+    this._dict=setTimeout(()=>{
+      this._dict=null;
+      this.setState({ wake:false, listening:true, transcript:dict, activeField:'all', savedAt:this._now(),
+        filled:{antecedents:true,traitements:true,constantes:true,examens:true,surveillance:true} });
+      this._dict2=setTimeout(()=>{ this._dict2=null; this.setState({listening:false,activeField:null,complete:true}); }, 1400);
+    }, 950);
+  }
+  stopDictation(){ this.clearDict(); this.setState(st=>({listening:false,wake:false,activeField:null, savedAt: st.transcript? this._now(): st.savedAt })); }
+  saveTransmission(){ this.startDpiSend(false); }
+  clearDpi(){ if(this._dpi){ clearTimeout(this._dpi); this._dpi=null; } }
+  startDpiSend(force){
+    this.clearDict(); this.clearDpi();
+    this.setState({saveStep:'sending', savedAt:this._now()});
+    const fail = !force && (this.props.simulerErreurDpi ?? false);
+    this._dpi=setTimeout(()=>{ this._dpi=null;
+      if(fail){ this.setState({saveStep:'error'}); return; }
+      const id=this.state.selectedId; const c=this.cur();
+      const ref='APHP-2307-'+(c?c.chambre:'')+Math.floor(100+Math.random()*900);
+      this.setState(st=>({saveStep:'done', dpiRef:ref, patients:st.patients.map(p=>p.id===id?{...p,status:'fait'}:p)}));
+    }, 1700);
+  }
+  retryDpi(){ this.startDpiSend(true); }
+  keepDraft(){ this.clearDpi(); this.setState({saveStep:'idle', savedAt:this._now()}); }
+  finishDpi(){ this.clearDpi(); this.setState({saveStep:'idle',view:'patients',listening:false,wake:false,complete:false,transcript:'',filled:{},activeField:null}); }
+
+  go(v){ this.setState({view:v}); }
+  navStyle(v){ const a=this.state.view===v; return 'display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:11px;cursor:pointer;font-size:13.5px;font-weight:'+(a?'600':'500')+';margin-bottom:3px;color:#fff;background:'+(a?'oklch(1 0 0 / 0.14)':'transparent')+';opacity:'+(a?'1':'0.72')+';transition:all .15s;'; }
+
+  statusPill(s){ const base='display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;flex:none;'; return s==='fait' ? base+'background:oklch(0.95 0.05 150);color:oklch(0.42 0.1 150);' : base+'background:oklch(0.96 0.04 65);color:oklch(0.5 0.12 65);'; }
+
+  selectDrug(k){ this.setState({assistantKey:k,query:''}); }
+  submitQuery(){ const q=(this.state.query||'').toLowerCase().trim(); if(!q) return; const ks=Object.keys(this.state.drugs); const hit=ks.find(k=>k.includes(q)||this.state.drugs[k].name.toLowerCase().includes(q)); if(hit) this.setState({assistantKey:hit}); }
+
+  renderVals(){
+    const S=this.state, v=S.view;
+    const appShell = ['patients','transmission','history','colleagues'].includes(v);
+    const pts=S.patients;
+    const done=pts.filter(p=>p.status==='fait').length;
+
+    const services=[
+      {key:'cardio',name:'Cardiologie',sub:'Votre service',short:'Ca',locked:false,iconBg:'oklch(0.93 0.04 235)',iconColor:'oklch(0.45 0.11 240)'},
+      {key:'mater',name:'Maternité',sub:'Verrouillé',short:'Ma',locked:true,iconBg:'oklch(0.95 0.006 255)',iconColor:'oklch(0.6 0.012 260)'},
+      {key:'pedia',name:'Pédiatrie',sub:'Verrouillé',short:'Pé',locked:true,iconBg:'oklch(0.95 0.006 255)',iconColor:'oklch(0.6 0.012 260)'},
+      {key:'urg',name:'Urgences',sub:'Verrouillé',short:'Ur',locked:true,iconBg:'oklch(0.95 0.006 255)',iconColor:'oklch(0.6 0.012 260)'},
+    ].map(s=>({...s, open: s.locked?(()=>{}):(()=>this.go('patients')),
+      cardStyle:'background:#fff;border:1px solid '+(s.locked?'oklch(0.92 0.006 255)':'oklch(0.8 0.06 235)')+';border-radius:14px;padding:18px;cursor:'+(s.locked?'not-allowed':'pointer')+';opacity:'+(s.locked?'0.6':'1')+';transition:all .15s;'+(s.locked?'':'box-shadow:0 2px 10px oklch(0.55 0.05 235 / 0.08);') }));
+
+    const patients=pts.map(p=>({ id:p.id, chambre:p.chambre, name:(p.civ+' '+p.name), age:p.age, motif:p.motif,
+      statusLabel: p.status==='fait'?'Transmis au DPI':'À faire', statusStyle:this.statusPill(p.status),
+      chamBg: p.status==='fait'?'oklch(0.95 0.04 150)':'oklch(0.95 0.03 235)', chamColor: p.status==='fait'?'oklch(0.42 0.1 150)':'oklch(0.45 0.11 240)',
+      open:()=>this.openPatient(p.id) }));
+
+    const p=this.cur();
+    const brd=(n)=> S.activeField===n ? 'oklch(0.55 0.11 235)' : 'oklch(0.91 0.006 255)';
+    let tx=null;
+    if(p){
+      const c=p.constantes;
+      tx={ chambre:p.chambre, name:(p.civ+' '+p.name), age:p.age, motif:p.motif,
+        faitBanner: p.status==='fait',
+        antFilled:this.fieldFilled('antecedents'), antEmpty:!this.fieldFilled('antecedents'), antValue:p.antecedents, antBorder:brd('antecedents'),
+        traFilled:this.fieldFilled('traitements'), traEmpty:!this.fieldFilled('traitements'), traValue:p.traitements, traBorder:brd('traitements'),
+        constFilled:this.fieldFilled('constantes'), constEmpty:!this.fieldFilled('constantes'), constBorder:brd('constantes'),
+        ta:c.ta, fc:c.fc, spo2:c.spo2+'%', o2:c.o2, diurese:c.diurese, spo2Color: parseInt(c.spo2)<93?'oklch(0.6 0.16 40)':'oklch(0.27 0.02 260)',
+        examFilled:this.fieldFilled('examens'), examEmpty:!this.fieldFilled('examens'), examValue:p.examens, examAlert:p.examAlert, examBorder:brd('examens'),
+        survFilled:this.fieldFilled('surveillance'), survEmpty:!this.fieldFilled('surveillance'), survValue:p.surveillance, survBorder:brd('surveillance'),
+      };
+      const showConf = this.props.afficherConfiance ?? true;
+      const flag = this.flagOf(p.id);
+      const lowAnt=!!(flag && p.antecedents.includes(flag));
+      const lowTra=!!(flag && p.traitements.includes(flag));
+      const lowExam=!!(flag && p.examens.includes(flag));
+      const lowSurv=!!(flag && p.surveillance.includes(flag));
+      tx.confShow=showConf;
+      tx.antSegs=this.segs(p.antecedents, lowAnt?flag:null, showConf);
+      tx.traSegs=this.segs(p.traitements, lowTra?flag:null, showConf);
+      tx.examSegs=this.segs(p.examens, lowExam?flag:null, showConf);
+      tx.survSegs=this.segs(p.surveillance, lowSurv?flag:null, showConf);
+      tx.antBadgeShow=tx.antFilled&&showConf; tx.antConfStyle=this.confStyle(lowAnt); tx.antConfLabel=lowAnt?'84 % · à vérifier':'98 %';
+      tx.traBadgeShow=tx.traFilled&&showConf; tx.traConfStyle=this.confStyle(lowTra); tx.traConfLabel=lowTra?'84 % · à vérifier':'98 %';
+      tx.examBadgeShow=tx.examFilled&&showConf; tx.examConfStyle=this.confStyle(lowExam); tx.examConfLabel=lowExam?'84 % · à vérifier':'98 %';
+      tx.survBadgeShow=tx.survFilled&&showConf; tx.survConfStyle=this.confStyle(lowSurv); tx.survConfLabel=lowSurv?'84 % · à vérifier':'98 %';
+      tx.constBadgeShow=tx.constFilled&&showConf; tx.constConfStyle=this.confStyle(false); tx.constConfLabel='capteurs 99 %';
+      tx.reviewLowShow=S.complete&&!!flag; tx.reviewHighShow=S.complete&&!flag; tx.reviewPct=flag?'96 %':'99 %';
+    }
+    const canSave = !S.listening && (S.complete || Object.keys(S.filled).length>0);
+    const micActive=S.listening;
+    const micStyle='width:78px;height:78px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;'+(micActive?'background:oklch(0.6 0.18 25);animation:nnPulse 1.5s infinite;':'background:oklch(0.6 0.13 235);');
+
+    const labels={antecedents:'Antécédents',traitements:'Traitements',constantes:'Constantes',examens:'Examens',surveillance:'Surveillance'};
+
+    // history
+    const histMonth=S.histView==='month';
+    const historyEntries=[
+      {date:'19 juil.',chambre:'12',name:'M. Bernard Lefèvre',motif:'Insuffisance cardiaque',shift:'Matin'},
+      {date:'19 juil.',chambre:'14',name:'M. Antoine Girard',motif:'Surveillance post-coro',shift:'Matin'},
+      {date:'18 juil.',chambre:'13',name:'Mme Jacqueline Morel',motif:'ACFA — adaptation traitement',shift:'Matin'},
+      {date:'17 juil.',chambre:'15',name:'Mme Christine Petit',motif:'OAP — relais oral',shift:'Matin'},
+      {date:'17 juil.',chambre:'12',name:'M. Bernard Lefèvre',motif:'Décompensation — entrée',shift:'Matin'},
+    ];
+    const historyMonths=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'].map((m,i)=>({label:m,count:[18,22,25,20,28,31,17,0,0,0,0,0][i]}));
+
+    // colleagues
+    const colData={
+      sophie:{name:'Sophie Lefebvre',initials:'SL',count:7,entries:[
+        {chambre:'20',name:'M. Alain Dubois',note:'Post-op valve — surveillance saignement'},
+        {chambre:'21',name:'Mme Hélène Faure',note:'Insuffisance cardiaque — diurèse 900 mL'},
+        {chambre:'22',name:'M. Marc Leroy',note:'ACFA — anticoagulation en cours'},
+        {chambre:'23',name:'Mme Sylvie Marchand',note:'HTA — TA contrôlée'},
+      ]},
+      karim:{name:'Karim Haddad',initials:'KH',count:6,entries:[
+        {chambre:'24',name:'M. Julien Robert',note:'Angor instable — coro prévue'},
+        {chambre:'25',name:'Mme Fatima Said',note:'Œdèmes — surveillance poids'},
+        {chambre:'26',name:'M. Pierre Garnier',note:'Pacemaker — pansement propre'},
+      ]},
+      emilie:{name:'Émilie Roux',initials:'ER',count:5,entries:[
+        {chambre:'27',name:'Mme Claire Moreau',note:'Péricardite — douleur soulagée'},
+        {chambre:'28',name:'M. Thomas Petit',note:'Bilan douleur thoracique — troponines OK'},
+      ]},
+    };
+    const colleagues=Object.keys(colData).map(k=>({ key:k, name:colData[k].name, initials:colData[k].initials, count:colData[k].count,
+      open:()=>this.setState({colleagueId:k}),
+      avBg: S.colleagueId===k?'oklch(0.55 0.11 235)':'oklch(0.93 0.02 235)', avColor: S.colleagueId===k?'#fff':'oklch(0.45 0.11 240)',
+      style:'display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:12px;cursor:pointer;border:1px solid '+(S.colleagueId===k?'oklch(0.55 0.11 235)':'oklch(0.91 0.006 255)')+';background:'+(S.colleagueId===k?'oklch(0.97 0.02 235)':'#fff')+';' }));
+    const curCol=colData[S.colleagueId];
+
+    const drug=S.drugs[S.assistantKey]||S.drugs.furosemide;
+    const drugChips=Object.keys(S.drugs).map(k=>({ key:k, label:S.drugs[k].name.split(' (')[0], open:()=>this.selectDrug(k),
+      style:'font-size:12px;font-weight:500;padding:6px 11px;border-radius:8px;cursor:pointer;border:1px solid '+(S.assistantKey===k?'oklch(0.55 0.11 235)':'oklch(0.9 0.006 255)')+';color:'+(S.assistantKey===k?'oklch(0.45 0.11 240)':'oklch(0.45 0.015 260)')+';background:'+(S.assistantKey===k?'oklch(0.96 0.03 235)':'#fff')+';' }));
+
+    return {
+      scale:S.scale,
+      isLogin:v==='login', isService:v==='service', isAppShell:appShell,
+      isPatients:v==='patients', isTransmission:v==='transmission', isHistory:v==='history', isColleagues:v==='colleagues',
+      hospital:'Hôpital Bichat', nurse:'Ophélie Dupont', nurseRole:'IDE · Équipe du matin', email:'ophelie.dupont@bichat.aphp.fr',
+      dateLabel:'Jeudi 20 juillet 2023',
+      doLogin:()=>this.go('service'),
+      services,
+      navPatients:this.navStyle('patients'), navHistory:this.navStyle('history'), navColleagues:this.navStyle('colleagues'),
+      goPatients:()=>this.go('patients'), goHistory:()=>this.go('history'), goColleagues:()=>this.go('colleagues'),
+      logout:()=>this.setState({view:'login'}),
+      openAssistant:()=>this.setState({assistantOpen:true}), closeAssistant:()=>this.setState({assistantOpen:false}),
+      patients, doneCount:done, totalCount:pts.length, donePct:Math.round(done/pts.length*100),
+      tx,
+      dpiModal:S.saveStep!=='idle', dpiSending:S.saveStep==='sending', dpiDone:S.saveStep==='done', dpiError:S.saveStep==='error',
+      dpiRef:S.dpiRef, dpiTime:S.savedAt||this._now(), dpiPatient:p?(p.civ+' '+p.name):'', dpiChambre:p?p.chambre:'',
+      retryDpi:()=>this.retryDpi(), keepDraft:()=>this.keepDraft(), finishDpi:()=>this.finishDpi(),
+      hasDraft: S.view==='transmission' && !!S.savedAt, draftTime:S.savedAt,
+      saveStyle:'padding:9px 16px;border-radius:9px;font-weight:600;font-size:13.5px;cursor:'+(canSave?'pointer':'not-allowed')+';font-family:inherit;border:none;background:'+(canSave?'oklch(0.55 0.11 235)':'oklch(0.9 0.006 255)')+';color:'+(canSave?'#fff':'oklch(0.65 0.012 260)')+';',
+      saveLabel: this.isFait()?'Mettre à jour':'Enregistrer la transmission', saveTransmission:()=>{ if(canSave) this.saveTransmission(); },
+      micToggle:()=>this.micToggle(), micStyle, micLabel: micActive?'À l\'écoute…':'Toucher pour dicter',
+      listening:S.listening, wake:S.wake,
+      transcript:S.transcript, hasTranscript:S.transcript.length>0, noTranscript:S.transcript.length===0,
+      activeLabel: S.activeField?labels[S.activeField]:null,
+      goBack:()=>this.go('patients'),
+      histMonth:()=>this.setState({histView:'month'}), histYear:()=>this.setState({histView:'year'}),
+      histIsMonth:histMonth, histIsYear:!histMonth,
+      histMonthStyle:'padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;'+(histMonth?'background:#fff;color:oklch(0.45 0.11 240);box-shadow:0 1px 3px oklch(0.5 0.02 255 / 0.12);':'color:oklch(0.5 0.015 260);'),
+      histYearStyle:'padding:7px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;'+(!histMonth?'background:#fff;color:oklch(0.45 0.11 240);box-shadow:0 1px 3px oklch(0.5 0.02 255 / 0.12);':'color:oklch(0.5 0.015 260);'),
+      historyEntries, historyMonths,
+      colleagues, colleagueName:curCol.name, colleagueEntries:curCol.entries,
+      assistantOpen:S.assistantOpen, drug, drugChips, query:S.query,
+      setQuery:(e)=>this.setState({query:e.target.value}), submitQuery:()=>this.submitQuery(),
+    };
+  }
+}
+</script>
+<script>
+(async () => {
+  if (!document.title || !document.title.trim()) document.title = "NurseNotes";
+  // Prepend so page-supplied @page / break rules (deck-stage's margin:0,
+  // author CSS) keep source-order precedence over the baseline.
+  const baseCss = document.createElement('style');
+  baseCss.textContent = "@media print {\n  @page { margin: 0.5cm; }\n  figure, table { break-inside: avoid; }\n  *, *::before, *::after {\n    print-color-adjust: exact; -webkit-print-color-adjust: exact;\n    backdrop-filter: none !important; -webkit-backdrop-filter: none !important;\n    animation-delay: -99s !important; animation-duration: .001s !important;\n    animation-iteration-count: 1 !important; animation-fill-mode: both !important;\n    animation-play-state: running !important; transition-duration: 0s !important;\n  }\n}";
+  document.head.prepend(baseCss);
+  if (document.readyState === 'loading') {
+    await new Promise((r) => document.addEventListener('DOMContentLoaded', r, { once: true }));
+  }
+  let ds = document.querySelector('deck-stage');
+  // whenDefined never resolves when nothing registers the element, so only
+  // await it when a <deck-stage> tag exists (and race a timeout regardless).
+  if (ds && !customElements.get('deck-stage')) {
+    try {
+      await Promise.race([
+        customElements.whenDefined('deck-stage'),
+        new Promise((r) => setTimeout(r, 3000)),
+      ]);
+    } catch (e) {}
+    ds = document.querySelector('deck-stage');
+  }
+  // dc-runtime assigns window.DCLogic at init and mounts into #dc-root on
+  // DOMContentLoaded; settle on that subtree so React has rendered before
+  // print(). Non-DC pages fall through to weighing body.
+  const isDc = !ds && 'DCLogic' in window;
+  const settleRoot = ds || (isDc ? document.getElementById('dc-root') : null) || document.body;
+  if (settleRoot) {
+    // Weigh only content children — skip script/style/template so inline
+    // Babel/CSS doesn't register as stable "content" before the framework
+    // has mounted anything.
+    const MEDIA = 'img,svg,canvas,video,picture,iframe,embed,object';
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of settleRoot.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll(MEDIA).length + (c.matches(MEDIA) ? 1 : 0);
+      }
+      return text + media * 100;
+    };
+    // "Non-zero and stable" alone is not sufficient to mean rendered: generic
+    // body can carry a static shell while async main content is pending, and
+    // #dc-root can carry the root DC's static text while child refs are still
+    // .sc-placeholder boxes. Gate generic on readyState 'complete', and never
+    // accept stability while a dc-runtime placeholder is present.
+    const isGeneric = settleRoot === document.body;
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      const ready =
+        (!isGeneric || document.readyState === 'complete') &&
+        !settleRoot.querySelector('.sc-placeholder');
+      if (n > 0 && n === last && ready) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  // Reveal content gated on scroll or visibility before printing. Lazy <img>,
+  // IntersectionObserver fade-ins, and collapsed <details> don't render while
+  // off-screen, so a long page would print with them blank or closed. Open
+  // every <details>, force native-lazy images eager, and scroll the document
+  // through its full height to trip lazy-load + IO; then wait (bounded) for the
+  // newly-triggered images. Inert for deck-stage (slides aren't scroll-gated).
+  try {
+    for (const d of document.querySelectorAll('details')) d.open = true;
+    for (const img of document.querySelectorAll('img[loading="lazy"]'))
+      img.loading = 'eager';
+    const scroller = document.scrollingElement || document.documentElement;
+    const full = Math.max(scroller.scrollHeight, document.body.scrollHeight);
+    const step = window.innerHeight || 800;
+    for (let y = 0; y <= full; y += step) {
+      window.scrollTo(0, y);
+      await new Promise((r) => requestAnimationFrame(r));
+    }
+    window.scrollTo(0, 0);
+    await Promise.race([
+      Promise.all(
+        [...document.images].map((img) =>
+          img.complete
+            ? null
+            : new Promise((res) => {
+                img.addEventListener('load', res, { once: true });
+                img.addEventListener('error', res, { once: true });
+              })
+        )
+      ),
+      new Promise((r) => setTimeout(r, 4000)),
+    ]);
+  } catch (e) {}
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  // Re-append deck-stage's @page last so no author @page can add a margin and
+  // spill each full-bleed slide onto two sheets. Backstop for old copies.
+  if (ds) {
+    let pg = document.getElementById('deck-stage-print-page');
+    if (!pg) {
+      pg = document.createElement('style');
+      pg.textContent = '@page{size:' + (+ds.getAttribute('width') || 1920) +
+        'px ' + (+ds.getAttribute('height') || 1080) + 'px;margin:0}';
+    }
+    document.body.appendChild(pg);
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  // Relax break-inside on oversized elements. An element taller than a
+  // printable page can't honor break-inside: avoid — browsers either overflow
+  // it or push it whole to the next page, leaving a blank gap, then break it
+  // anyway at an arbitrary point. After the final layout (content revealed,
+  // animations jumped), find elements taller than a page that still compute
+  // break-inside: avoid and reset them to auto, so the browser breaks them at
+  // their children's boundaries instead (children keep their own avoid). PAGE_PX
+  // is a conservative portrait estimate at 96 CSS px/in — Letter/A4 usable
+  // height minus our 0.5in margins — so only clearly-oversized elements are
+  // touched and under-page elements still stay whole. Skipped for decks, whose
+  // slides are sized to the page.
+  try {
+    if (!document.querySelector('deck-stage')) {
+      const PAGE_PX = 1024;
+      // Our print defaults add a body padding inset only when we also zero the
+      // @page margin; computed style can't tell us (it reports screen media),
+      // so read the injected rule directly.
+      const defaults = document.querySelector('style[data-omelette-print-defaults]');
+      const pageInset = /body\s*\{[^}]*padding/.test(defaults ? defaults.textContent || '' : '');
+      const SEL = 'section,article,figure,table,pre,blockquote,[class~="card" i],[class~="page" i],[class~="sheet" i]';
+      for (const el of document.body.querySelectorAll(SEL)) {
+        if (el instanceof HTMLElement && el.offsetHeight > PAGE_PX) {
+          el.setAttribute('data-om-oversized', '');
+          // Fake-paged docs simulate sheets with over-tall break-after:page
+          // boxes; honoring the break spills half-blank pages and ends a
+          // colored box mid-sheet. Flow them, and (only when we own the page
+          // inset) drop the redundant padding/background via the rule below.
+          const cs = getComputedStyle(el);
+          if (cs.breakAfter === 'page' || cs.pageBreakAfter === 'always') {
+            el.setAttribute('data-om-fakepage', '');
+          }
+        }
+      }
+      const ost = document.createElement('style');
+      ost.textContent = '@media print{' +
+        '[data-om-oversized]{break-inside:auto !important;page-break-inside:auto !important}' +
+        '[data-om-fakepage]{break-after:auto !important;page-break-after:auto !important}' +
+        (pageInset ? '[data-om-fakepage]{padding:0 !important;background:none !important}' : '') +
+        '}';
+      document.head.appendChild(ost);
+    }
+  } catch (e) {}
+  // macOS Preview renders Skia-PDF Luminosity soft-masks as opaque grey boxes;
+  // swap the CSS that triggers them for Preview-safe forms.
+  try {
+    for (const el of document.body.querySelectorAll('*')) {
+      const cs = getComputedStyle(el);
+
+      if (cs.boxShadow !== 'none' && cs.filter === 'none') {
+        const outs = [], kept = [];
+        for (const s of cs.boxShadow.split(/,(?![^(]*[)])/)) {
+          const t = s.trim();
+          const m = t.match(/^(rgba?[(][^)]+[)]) (-?[0-9.]+px) (-?[0-9.]+px) ([0-9.]+px) -?[0-9.]+px$/);
+          if (m && parseFloat(m[4]) > 0) outs.push('drop-shadow(' + m[2] + ' ' + m[3] + ' ' + m[4] + ' ' + m[1] + ')');
+          else kept.push(t);
+        }
+        if (outs.length) {
+          el.style.setProperty('filter', outs.join(' '), 'important');
+          el.style.setProperty('box-shadow', kept.join(', ') || 'none', 'important');
+        }
+      }
+
+      const mask = cs.maskImage && cs.maskImage !== 'none' ? cs.maskImage : cs.webkitMaskImage;
+      if (mask && mask !== 'none' && cs.filter === 'none') el.style.setProperty('filter', 'opacity(1)', 'important');
+    }
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>
