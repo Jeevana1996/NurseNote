@@ -1,7 +1,8 @@
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 import { ConfidenceBadge } from "./ConfidenceBadge";
 import { HighlightedText } from "./HighlightedText";
 import { segmentText } from "../utils/segments";
+import { CardIconButton, CheckIcon, PencilIcon, TrashIcon } from "./CardIconButton";
 
 interface FieldCardProps {
   label: string;
@@ -12,6 +13,8 @@ interface FieldCardProps {
   alertDot?: boolean;
   fullWidth?: boolean;
   lineHeight?: number;
+  onChange: (value: string) => void;
+  onClear: () => void;
 }
 
 export function FieldCard({
@@ -23,7 +26,11 @@ export function FieldCard({
   alertDot,
   fullWidth,
   lineHeight = 1.55,
+  onChange,
+  onClear,
 }: FieldCardProps) {
+  const [editing, setEditing] = useState(false);
+
   const isLow = filled && !!flagTerm && text.includes(flagTerm);
   const segments = filled ? segmentText(text, isLow ? flagTerm : null) : [];
 
@@ -43,9 +50,49 @@ export function FieldCard({
         <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.07em", color: "var(--text-muted)" }}>
           {label}
         </span>
-        {filled && <ConfidenceBadge low={isLow} label={isLow ? "84 % · à vérifier" : "98 %"} />}
+        <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+          {filled && !editing && <ConfidenceBadge low={isLow} label={isLow ? "84 % · à vérifier" : "98 %"} />}
+          {editing ? (
+            <CardIconButton title="Terminer" onClick={() => setEditing(false)}>
+              <CheckIcon />
+            </CardIconButton>
+          ) : (
+            <>
+              <CardIconButton title="Écrire / modifier" onClick={() => setEditing(true)}>
+                <PencilIcon />
+              </CardIconButton>
+              {filled && (
+                <CardIconButton title="Effacer" onClick={onClear}>
+                  <TrashIcon />
+                </CardIconButton>
+              )}
+            </>
+          )}
+        </div>
       </div>
-      {filled ? (
+      {editing ? (
+        <textarea
+          autoFocus
+          value={text}
+          onChange={(e) => onChange(e.target.value)}
+          onBlur={() => setEditing(false)}
+          placeholder="Écrivez la transmission pour cette rubrique…"
+          rows={3}
+          style={{
+            width: "100%",
+            resize: "vertical",
+            border: "1px solid var(--border-input)",
+            borderRadius: 11,
+            padding: "9px 11px",
+            fontFamily: "inherit",
+            fontSize: 14,
+            lineHeight,
+            color: "var(--text)",
+            background: "var(--bg)",
+            outline: "none",
+          }}
+        />
+      ) : filled ? (
         <div className="nn-flash" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, lineHeight }}>
           {alertDot && <span style={{ width: 8, height: 8, borderRadius: "50%", background: "var(--accent)", flex: "none" }} />}
           <span>
@@ -53,8 +100,12 @@ export function FieldCard({
           </span>
         </div>
       ) : (
-        <div className="nn-shimmer" style={{ fontSize: 13, color: "var(--text-faint)" }}>
-          En attente de dictée…
+        <div
+          onClick={() => setEditing(true)}
+          className="nn-shimmer"
+          style={{ fontSize: 13, color: "var(--text-faint)", cursor: "pointer" }}
+        >
+          En attente de dictée… (cliquez pour écrire)
         </div>
       )}
     </div>

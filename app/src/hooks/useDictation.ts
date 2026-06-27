@@ -138,7 +138,10 @@ function buildTranscript(event: SpeechRecognitionEvent): string {
 
 /** Drives real microphone dictation: waits for the "ok connect" wake phrase, then
  * segments the live transcript into transmission fields using spoken section
- * keywords (antécédents, traitements, constantes, examens, surveillance). */
+ * keywords (antécédents, traitements, constantes, examens, surveillance).
+ * Dictated content and manual edits both accumulate in refs that survive
+ * stop()/start() cycles, so dictating one section, stopping, then dictating
+ * another section no longer erases the first. */
 export function useDictation(patient: Patient | undefined) {
   const [state, setState] = useState<DictationState>(IDLE_STATE);
 
@@ -148,6 +151,10 @@ export function useDictation(patient: Patient | undefined) {
   const savedAtRef = useRef<string | null>(null);
   const wakeWordEndRef = useRef<number | null>(null);
 
+  const fieldTextRef = useRef<Partial<Record<FieldKey, string>>>({});
+  const filledRef = useRef<Partial<Record<FieldKey, boolean>>>({});
+  const constantesRef = useRef<Partial<Constantes>>({});
+
   useEffect(() => {
     return () => {
       manualStopRef.current = true;
@@ -155,6 +162,61 @@ export function useDictation(patient: Patient | undefined) {
       recognitionRef.current = null;
     };
   }, []);
+
+  const publish = useCallback(() => {
+    setState((s) => ({
+      ...s,
+      fieldText: { ...fieldTextRef.current },
+      filled: { ...filledRef.current },
+      constantes: { ...constantesRef.current },
+      savedAt: savedAtRef.current,
+    }));
+  }, []);
+
+  const setFieldText = useCallback((field: Exclude<FieldKey, "constantes">, value: string) => {
+    fieldTextRef.current = { ...fieldTextRef.current, [field]: value };
+    if (value.trim().length > 0) {
+      filledRef.current = { ...filledRef.current, [field]: true };
+      if (!savedAtRef.current) savedAtRef.current = nowLabel();
+    } else {
+      const next = { ...filledRef.current };
+      delete next[field];
+      filledRef.current = next;
+    }
+    publish();
+  }, [publish]);
+
+  const clearField = useCallback((field: Exclude<FieldKey, "constantes">) => {
+    const nextText = { ...fieldTextRef.current };
+    delete nextText[field];
+    fieldTextRef.current = nextText;
+    const nextFilled = { ...filledRef.current };
+    delete nextFilled[field];
+    filledRef.current = nextFilled;
+    publish();
+  }, [publish]);
+
+  const setConstante = useCallback((key: keyof Constantes, value: string) => {
+    constantesRef.current = { ...constantesRef.current, [key]: value };
+    const anyFilled = Object.values(constantesRef.current).some((v) => !!v && v.trim().length > 0);
+    if (anyFilled) {
+      filledRef.current = { ...filledRef.current, constantes: true };
+      if (!savedAtRef.current) savedAtRef.current = nowLabel();
+    } else {
+      const next = { ...filledRef.current };
+      delete next.constantes;
+      filledRef.current = next;
+    }
+    publish();
+  }, [publish]);
+
+  const clearConstantes = useCallback(() => {
+    constantesRef.current = {};
+    const next = { ...filledRef.current };
+    delete next.constantes;
+    filledRef.current = next;
+    publish();
+  }, [publish]);
 
   const handleResult = useCallback((event: SpeechRecognitionEvent) => {
     const full = buildTranscript(event);
@@ -176,9 +238,9 @@ export function useDictation(patient: Patient | undefined) {
       if (match) markers.push({ field: match.field, wordIndex: idx });
     });
 
-    const fieldText: Partial<Record<FieldKey, string>> = {};
-    const filled: Partial<Record<FieldKey, boolean>> = {};
-    const constantes: Partial<Constantes> = {};
+    const sessionFieldText: Partial<Record<FieldKey, string>> = {};
+    const sessionFilled: Partial<Record<FieldKey, boolean>> = {};
+    const sessionConstantes: Partial<Constantes> = {};
     let activeField: FieldKey | null = null;
 
     markers.forEach((marker, i) => {
@@ -187,14 +249,18 @@ export function useDictation(patient: Patient | undefined) {
       const segmentWords = postWake.slice(start, end);
       const segment = segmentWords.join(" ").trim();
       if (segment) {
-        fieldText[marker.field] = segment;
-        filled[marker.field] = true;
-        if (marker.field === "constantes") Object.assign(constantes, parseConstantes(segmentWords));
+        sessionFieldText[marker.field] = segment;
+        sessionFilled[marker.field] = true;
+        if (marker.field === "constantes") Object.assign(sessionConstantes, parseConstantes(segmentWords));
       }
       activeField = marker.field;
     });
 
-    if (Object.keys(filled).length > 0 && !savedAtRef.current) {
+    fieldTextRef.current = { ...fieldTextRef.current, ...sessionFieldText };
+    filledRef.current = { ...filledRef.current, ...sessionFilled };
+    constantesRef.current = { ...constantesRef.current, ...sessionConstantes };
+
+    if (Object.keys(sessionFilled).length > 0 && !savedAtRef.current) {
       savedAtRef.current = nowLabel();
     }
 
@@ -202,9 +268,9 @@ export function useDictation(patient: Patient | undefined) {
       ...s,
       status: statusRef.current,
       transcript: postWake.join(" "),
-      filled,
-      fieldText,
-      constantes,
+      fieldText: { ...fieldTextRef.current },
+      filled: { ...filledRef.current },
+      constantes: { ...constantesRef.current },
       activeField,
       savedAt: savedAtRef.current,
     }));
@@ -236,15 +302,18 @@ export function useDictation(patient: Patient | undefined) {
     if (!patient) return;
     const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognitionCtor) {
-      setState({ ...IDLE_STATE, error: "Reconnaissance vocale non disponible sur ce navigateur. Essayez Chrome ou Edge." });
+      setState((s) => ({
+        ...s,
+        status: "idle",
+        error: "Reconnaissance vocale non disponible sur ce navigateur. Essayez Chrome ou Edge.",
+      }));
       return;
     }
 
     manualStopRef.current = false;
-    savedAtRef.current = null;
     wakeWordEndRef.current = null;
     statusRef.current = "waking";
-    setState({ ...IDLE_STATE, status: "waking" });
+    setState((s) => ({ ...s, status: "waking", transcript: "", activeField: null, error: null }));
 
     const recognition = new SpeechRecognitionCtor();
     recognition.continuous = true;
@@ -267,14 +336,11 @@ export function useDictation(patient: Patient | undefined) {
     manualStopRef.current = true;
     recognitionRef.current?.stop();
     recognitionRef.current = null;
-    statusRef.current = "idle";
-    setState((s) => {
-      const hasContent = Object.keys(s.filled).length > 0;
-      const status = hasContent ? "complete" : "idle";
-      statusRef.current = status;
-      return { ...s, status, activeField: null };
-    });
+    const hasContent = Object.keys(filledRef.current).length > 0;
+    const status = hasContent ? "complete" : "idle";
+    statusRef.current = status;
+    setState((s) => ({ ...s, status, activeField: null }));
   }, []);
 
-  return { state, start, stop };
+  return { state, start, stop, setFieldText, clearField, setConstante, clearConstantes };
 }

@@ -35,6 +35,8 @@ export function TransmissionScreen({
 
   const fieldFilled = (field: FieldKey) => isFait || !!filled[field];
   const fieldContent = (field: Exclude<FieldKey, "constantes">) => fieldText[field] ?? patient[field];
+  const fieldOnChange = (field: Exclude<FieldKey, "constantes">) => (value: string) => dictation.setFieldText(field, value);
+  const fieldOnClear = (field: Exclude<FieldKey, "constantes">) => () => dictation.clearField(field);
 
   const flag = patient.lowConfidenceTerm ?? null;
   const flagFound = !!flag && Object.values(fieldText).some((t) => t.toLowerCase().includes(flag.toLowerCase()));
@@ -284,6 +286,8 @@ export function TransmissionScreen({
               text={fieldContent("antecedents")}
               flagTerm={flag}
               active={activeField === "antecedents"}
+              onChange={fieldOnChange("antecedents")}
+              onClear={fieldOnClear("antecedents")}
             />
             <FieldCard
               label="TRAITEMENTS EN COURS"
@@ -291,12 +295,16 @@ export function TransmissionScreen({
               text={fieldContent("traitements")}
               flagTerm={flag}
               active={activeField === "traitements"}
+              onChange={fieldOnChange("traitements")}
+              onClear={fieldOnClear("traitements")}
             />
             <div style={{ gridColumn: "1 / -1" }}>
               <ConstantesCard
                 filled={fieldFilled("constantes")}
                 active={activeField === "constantes"}
                 constantes={{ ...patient.constantes, ...constantes }}
+                onChange={dictation.setConstante}
+                onClear={dictation.clearConstantes}
               />
             </div>
             <div style={{ gridColumn: "1 / -1" }}>
@@ -308,6 +316,8 @@ export function TransmissionScreen({
                 active={activeField === "examens"}
                 alertDot={patient.examAlert}
                 fullWidth
+                onChange={fieldOnChange("examens")}
+                onClear={fieldOnClear("examens")}
               />
             </div>
             <div style={{ gridColumn: "1 / -1" }}>
@@ -319,6 +329,8 @@ export function TransmissionScreen({
                 active={activeField === "surveillance"}
                 fullWidth
                 lineHeight={1.6}
+                onChange={fieldOnChange("surveillance")}
+                onClear={fieldOnClear("surveillance")}
               />
             </div>
             <CommentCard value={patient.commentaire ?? ""} onChange={onUpdateComment} />
@@ -399,9 +411,13 @@ export function TransmissionScreen({
             <div style={{ marginTop: 10, fontSize: 11, opacity: 0.6, textAlign: "center", lineHeight: 1.5 }}>
               Dites « antécédents », « traitements », « constantes », « examens » ou « surveillance » pour remplir chaque
               rubrique. Dans « constantes », précisez « tension », « fréquence », « saturation », « oxygène » ou «
-              diurèse » pour chaque valeur.
+              diurèse » pour chaque valeur. Vous pouvez arrêter puis reprendre la dictée rubrique par rubrique : rien
+              n'est effacé entre deux prises de parole.
             </div>
           )}
+          <div style={{ marginTop: 10, fontSize: 11, opacity: 0.6, textAlign: "center", lineHeight: 1.5 }}>
+            Sur chaque rubrique, utilisez le crayon pour écrire ou corriger à la main, et la corbeille pour l'effacer.
+          </div>
         </div>
 
         <div style={{ marginTop: 24, fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.12em", opacity: 0.55 }}>
