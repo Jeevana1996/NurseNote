@@ -30,7 +30,7 @@ export function TransmissionScreen({
   const dictation = useDictation(patient);
 
   const isFait = patient.status === "fait";
-  const { status, transcript, filled, fieldText, activeField, savedAt, error } = dictation.state;
+  const { status, transcript, filled, fieldText, constantes, activeField, savedAt, error } = dictation.state;
   const isActivelyDictating = status === "waking" || status === "listening";
 
   const fieldFilled = (field: FieldKey) => isFait || !!filled[field];
@@ -296,7 +296,7 @@ export function TransmissionScreen({
               <ConstantesCard
                 filled={fieldFilled("constantes")}
                 active={activeField === "constantes"}
-                constantes={patient.constantes}
+                constantes={{ ...patient.constantes, ...constantes }}
               />
             </div>
             <div style={{ gridColumn: "1 / -1" }}>
@@ -398,7 +398,8 @@ export function TransmissionScreen({
           {speechRecognitionSupported && !error && (
             <div style={{ marginTop: 10, fontSize: 11, opacity: 0.6, textAlign: "center", lineHeight: 1.5 }}>
               Dites « antécédents », « traitements », « constantes », « examens » ou « surveillance » pour remplir chaque
-              rubrique.
+              rubrique. Dans « constantes », précisez « tension », « fréquence », « saturation », « oxygène » ou «
+              diurèse » pour chaque valeur.
             </div>
           )}
         </div>

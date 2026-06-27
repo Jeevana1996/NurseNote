@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { FieldKey, Patient } from "../types";
+import type { Constantes, FieldKey, Patient } from "../types";
 import { nowLabel } from "../utils/format";
 
 interface SpeechRecognitionAlternative {
@@ -50,6 +50,7 @@ export interface DictationState {
   transcript: string;
   filled: Partial<Record<FieldKey, boolean>>;
   fieldText: Partial<Record<FieldKey, string>>;
+  constantes: Partial<Constantes>;
   activeField: FieldKey | null;
   savedAt: string | null;
   error: string | null;
@@ -60,6 +61,7 @@ const IDLE_STATE: DictationState = {
   transcript: "",
   filled: {},
   fieldText: {},
+  constantes: {},
   activeField: null,
   savedAt: null,
   error: null,
@@ -74,12 +76,42 @@ const SECTION_KEYWORDS: { field: FieldKey; words: string[] }[] = [
   { field: "surveillance", words: ["surveillance"] },
 ];
 
+/** Monitoring-item keywords recognized once inside the "constantes" section, so dictated
+ * vital signs map directly onto the structured Constantes fields. */
+const CONSTANTES_KEYWORDS: { key: keyof Constantes; words: string[] }[] = [
+  { key: "ta", words: ["tension", "ta"] },
+  { key: "fc", words: ["frequence", "fc", "pouls"] },
+  { key: "spo2", words: ["saturation", "spo2", "sao2"] },
+  { key: "o2", words: ["oxygene", "o2", "debit"] },
+  { key: "diurese", words: ["diurese"] },
+];
+
 function normalizeWord(word: string): string {
   return word
     .normalize("NFD")
     .replace(/\p{Mark}/gu, "")
     .toLowerCase()
     .replace(/[^a-z0-9]/g, "");
+}
+
+/** Segments the words spoken inside the "constantes" section by monitoring-item keyword
+ * (tension, fréquence, saturation, oxygène, diurèse), mirroring the top-level section logic. */
+function parseConstantes(words: string[]): Partial<Constantes> {
+  const markers: { key: keyof Constantes; wordIndex: number }[] = [];
+  words.forEach((w, idx) => {
+    const norm = normalizeWord(w);
+    const match = CONSTANTES_KEYWORDS.find((c) => c.words.includes(norm));
+    if (match) markers.push({ key: match.key, wordIndex: idx });
+  });
+
+  const result: Partial<Constantes> = {};
+  markers.forEach((marker, i) => {
+    const start = marker.wordIndex + 1;
+    const end = i + 1 < markers.length ? markers[i + 1].wordIndex : words.length;
+    const segment = words.slice(start, end).join(" ").trim();
+    if (segment) result[marker.key] = segment;
+  });
+  return result;
 }
 
 /** Finds where the "ok connect" wake phrase ends in a word array, or -1 if absent. */
@@ -146,15 +178,18 @@ export function useDictation(patient: Patient | undefined) {
 
     const fieldText: Partial<Record<FieldKey, string>> = {};
     const filled: Partial<Record<FieldKey, boolean>> = {};
+    const constantes: Partial<Constantes> = {};
     let activeField: FieldKey | null = null;
 
     markers.forEach((marker, i) => {
       const start = marker.wordIndex + 1;
       const end = i + 1 < markers.length ? markers[i + 1].wordIndex : postWake.length;
-      const segment = postWake.slice(start, end).join(" ").trim();
+      const segmentWords = postWake.slice(start, end);
+      const segment = segmentWords.join(" ").trim();
       if (segment) {
         fieldText[marker.field] = segment;
         filled[marker.field] = true;
+        if (marker.field === "constantes") Object.assign(constantes, parseConstantes(segmentWords));
       }
       activeField = marker.field;
     });
@@ -169,6 +204,7 @@ export function useDictation(patient: Patient | undefined) {
       transcript: postWake.join(" "),
       filled,
       fieldText,
+      constantes,
       activeField,
       savedAt: savedAtRef.current,
     }));
