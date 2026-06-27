@@ -191,3 +191,97 @@ button {
   padding: 0 2px;
   font-weight: 600;
 }
+
+.nn-mobile-topbar {
+  display: none;
+}
+.nn-sidebar-backdrop {
+  display: none;
+}
+
+@media (max-width: 880px) {
+  .nn-mobile-topbar {
+    display: flex !important;
+  }
+  .nn-app-sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(280px, 86vw) !important;
+    z-index: 56;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 24px 0 60px rgba(43, 42, 38, 0.18);
+  }
+  .nn-app-sidebar.nn-sidebar-open {
+    transform: translateX(0);
+  }
+  .nn-sidebar-backdrop.nn-sidebar-open {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    background: rgba(43, 42, 38, 0.35);
+    z-index: 55;
+  }
+
+  .nn-transmission-root {
+    flex-direction: column !important;
+    overflow-y: auto !important;
+  }
+  .nn-transmission-fields {
+    flex: none !important;
+  }
+  .nn-transmission-fields-scroll {
+    flex: none !important;
+    overflow-y: visible !important;
+  }
+  .nn-transmission-voice {
+    width: 100% !important;
+    height: auto !important;
+    flex: none !important;
+  }
+  .nn-transmission-voice-transcript {
+    flex: none !important;
+    max-height: 260px;
+  }
+
+  .nn-colleagues-row {
+    flex-direction: column !important;
+  }
+  .nn-colleagues-list {
+    width: 100% !important;
+  }
+
+  .nn-login-root {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100%;
+    overflow-y: auto !important;
+  }
+  .nn-login-brand {
+    width: 100% !important;
+    height: auto !important;
+    padding: 26px 24px !important;
+  }
+  .nn-login-form {
+    padding: 28px 24px !important;
+  }
+  .nn-login-headline {
+    font-size: 26px !important;
+  }
+  .nn-login-stats {
+    display: none !important;
+  }
+
+  .nn-service-header {
+    padding: 16px 18px !important;
+  }
+  .nn-service-body {
+    padding: 24px 18px !important;
+  }
+
+  .nn-screen-pad {
+    padding: 18px 16px !important;
+  }
+}

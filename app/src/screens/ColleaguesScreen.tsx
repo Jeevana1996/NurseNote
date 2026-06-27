@@ -45,14 +45,14 @@ export function ColleaguesScreen() {
   };
 
   return (
-    <div className="nn-scroll nn-rise" style={{ flex: 1, overflowY: "auto", padding: "30px 34px" }}>
+    <div className="nn-scroll nn-rise nn-screen-pad" style={{ flex: 1, overflowY: "auto", padding: "30px 34px" }}>
       <div style={{ fontFamily: "var(--font-serif)", fontSize: 27, fontWeight: 500 }}>Transmissions des collègues</div>
       <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
         Équipe présente le {DATE_LABEL} · consultation seule (non modifiable).
       </div>
 
-      <div style={{ display: "flex", gap: 20, marginTop: 22, alignItems: "flex-start" }}>
-        <div style={{ width: 240, flex: "none", display: "flex", flexDirection: "column", gap: 8 }}>
+      <div className="nn-colleagues-row" style={{ display: "flex", gap: 20, marginTop: 22, alignItems: "flex-start" }}>
+        <div className="nn-colleagues-list" style={{ width: 240, flex: "none", display: "flex", flexDirection: "column", gap: 8 }}>
           {colleagues.map((c) => {
             const active = c.key === colleagueKey;
             return (

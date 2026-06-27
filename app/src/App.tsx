@@ -31,6 +31,7 @@ export default function App() {
       onMarkSent={handleMarkSent}
       onUpdateComment={handleUpdateComment}
       onLogout={() => setScreen("login")}
+      onBackToServices={() => setScreen("service")}
     />
   );
 }

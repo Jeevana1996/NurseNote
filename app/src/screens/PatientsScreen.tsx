@@ -91,7 +91,7 @@ export function PatientsScreen({
   const donePct = Math.round((doneCount / patients.length) * 100);
 
   return (
-    <div className="nn-scroll nn-rise" style={{ flex: 1, overflowY: "auto", padding: "30px 34px" }}>
+    <div className="nn-scroll nn-rise nn-screen-pad" style={{ flex: 1, overflowY: "auto", padding: "30px 34px" }}>
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
         <div>
           <div style={{ fontFamily: "var(--font-serif)", fontSize: 27, fontWeight: 500 }}>Patients du jour</div>
@@ -137,7 +137,7 @@ export function PatientsScreen({
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 14, marginTop: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px,1fr))", gap: 14, marginTop: 20 }}>
         {patients.map((p) => (
           <PatientCard key={p.id} patient={p} onOpen={() => onOpenPatient(p.id)} />
         ))}

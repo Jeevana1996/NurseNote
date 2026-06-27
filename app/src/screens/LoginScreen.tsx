@@ -5,8 +5,9 @@ const EMAIL = "ophelie.dupont@bichat.aphp.fr";
 
 export function LoginScreen({ onLogin }: { onLogin: () => void }) {
   return (
-    <div className="nn-rise" style={{ display: "flex", width: "100%", height: "100%" }}>
+    <div className="nn-rise nn-login-root" style={{ display: "flex", width: "100%", height: "100%" }}>
       <div
+        className="nn-login-brand"
         style={{
           width: "46%",
           height: "100%",
@@ -27,7 +28,7 @@ export function LoginScreen({ onLogin }: { onLogin: () => void }) {
         </div>
 
         <div>
-          <div style={{ fontFamily: "var(--font-serif)", fontSize: 40, fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
+          <div className="nn-login-headline" style={{ fontFamily: "var(--font-serif)", fontSize: 40, fontWeight: 500, lineHeight: 1.12, letterSpacing: "-0.01em" }}>
             La transmission,
             <br />
             dictée à voix haute.
@@ -38,7 +39,7 @@ export function LoginScreen({ onLogin }: { onLogin: () => void }) {
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: 36 }}>
+        <div className="nn-login-stats" style={{ display: "flex", gap: 36 }}>
           <div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: 25, fontWeight: 600 }}>93%</div>
             <div style={{ fontSize: 11.5, opacity: 0.78, maxWidth: 120, lineHeight: 1.45, marginTop: 2 }}>
@@ -54,8 +55,8 @@ export function LoginScreen({ onLogin }: { onLogin: () => void }) {
         </div>
       </div>
 
-      <div style={{ flex: 1, height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: 40 }}>
-        <div style={{ width: 340 }}>
+      <div className="nn-login-form" style={{ flex: 1, height: "100%", display: "flex", alignItems: "center", justifyContent: "center", padding: 40 }}>
+        <div style={{ width: 340, maxWidth: "100%" }}>
           <div style={{ fontSize: 12.5, fontWeight: 600, color: "var(--brand)", letterSpacing: "0.08em", textTransform: "uppercase" }}>
             Portail soignant
           </div>

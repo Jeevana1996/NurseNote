@@ -28,11 +28,13 @@ export function DpiModal({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        padding: 16,
       }}
     >
       <div
         style={{
-          width: 440,
+          width: "100%",
+          maxWidth: 440,
           background: "var(--surface-card)",
           borderRadius: 22,
           padding: "30px 30px 26px",

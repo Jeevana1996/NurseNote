@@ -60,12 +60,15 @@ export function ServiceScreen({ onSelect }: { onSelect: () => void }) {
   return (
     <div className="nn-rise" style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
       <div
+        className="nn-service-header"
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           padding: "22px 36px",
           borderBottom: "1px solid var(--border-card)",
+          flexWrap: "wrap",
+          gap: 12,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
@@ -103,12 +106,12 @@ export function ServiceScreen({ onSelect }: { onSelect: () => void }) {
         </div>
       </div>
 
-      <div style={{ flex: 1, padding: "48px 56px" }}>
+      <div className="nn-service-body" style={{ flex: 1, padding: "48px 56px" }}>
         <div style={{ fontFamily: "var(--font-serif)", fontSize: 30, fontWeight: 500 }}>Bonjour Ophélie 👋</div>
         <div style={{ fontSize: 14, color: "var(--text-secondary)", marginTop: 7 }}>
           Sélectionnez votre service pour accéder à vos transmissions.
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16, marginTop: 32, maxWidth: 880 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px,1fr))", gap: 16, marginTop: 32, maxWidth: 880 }}>
           {services.map((s) => (
             <ServiceCard key={s.key} service={s} onOpen={onSelect} />
           ))}

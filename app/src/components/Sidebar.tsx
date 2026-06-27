@@ -48,6 +48,8 @@ export function Sidebar({
   onLogout,
   simulateDpiError,
   onToggleSimulateDpiError,
+  mobileOpen,
+  onCloseMobile,
 }: {
   view: View;
   onNavigate: (v: "patients" | "history" | "colleagues") => void;
@@ -56,6 +58,8 @@ export function Sidebar({
   onLogout: () => void;
   simulateDpiError: boolean;
   onToggleSimulateDpiError: () => void;
+  mobileOpen?: boolean;
+  onCloseMobile?: () => void;
 }) {
   const [assistantHover, setAssistantHover] = useState(false);
   const [logoutHover, setLogoutHover] = useState(false);
@@ -63,6 +67,7 @@ export function Sidebar({
 
   return (
     <div
+      className={`nn-app-sidebar${mobileOpen ? " nn-sidebar-open" : ""}`}
       style={{
         width: 236,
         height: "100%",
@@ -74,29 +79,40 @@ export function Sidebar({
         flex: "none",
       }}
     >
-      <div
-        onClick={onNavigateHome}
-        onMouseEnter={() => setHomeHover(true)}
-        onMouseLeave={() => setHomeHover(false)}
-        title="Accueil"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          padding: "0 6px 18px",
-          margin: "-2px -6px 0",
-          paddingTop: 2,
-          borderRadius: 12,
-          cursor: "pointer",
-          opacity: homeHover ? 0.85 : 1,
-          transition: "opacity .15s",
-        }}
-      >
-        <Logo size={34} radius={10} />
-        <div>
-          <div style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em" }}>NurseNotes</div>
-          <div style={{ fontSize: 10.5, opacity: 0.72 }}>{HOSPITAL}</div>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div
+          onClick={onNavigateHome}
+          onMouseEnter={() => setHomeHover(true)}
+          onMouseLeave={() => setHomeHover(false)}
+          title="Accueil"
+          style={{
+            flex: 1,
+            minWidth: 0,
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            padding: "0 6px 18px",
+            margin: "-2px -6px 0",
+            paddingTop: 2,
+            borderRadius: 12,
+            cursor: "pointer",
+            opacity: homeHover ? 0.85 : 1,
+            transition: "opacity .15s",
+          }}
+        >
+          <Logo size={34} radius={10} />
+          <div>
+            <div style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em" }}>NurseNotes</div>
+            <div style={{ fontSize: 10.5, opacity: 0.72 }}>{HOSPITAL}</div>
+          </div>
         </div>
+        {mobileOpen && (
+          <div onClick={onCloseMobile} style={{ cursor: "pointer", flex: "none", padding: "0 4px 18px 0", opacity: 0.85 }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
+              <path d="M18 6L6 18M6 6l12 12"></path>
+            </svg>
+          </div>
+        )}
       </div>
       <div style={{ height: 1, background: "rgba(250,246,239,0.18)", margin: "4px 0 14px" }} />
       <div style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: "0.12em", opacity: 0.6, padding: "0 8px 8px" }}>

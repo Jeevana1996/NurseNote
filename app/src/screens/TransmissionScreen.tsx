@@ -55,8 +55,8 @@ export function TransmissionScreen({
   };
 
   return (
-    <div style={{ display: "flex", width: "100%", height: "100%" }}>
-      <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
+    <div className="nn-transmission-root" style={{ display: "flex", width: "100%", height: "100%" }}>
+      <div className="nn-transmission-fields" style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column" }}>
         <div
           style={{
             display: "flex",
@@ -65,6 +65,7 @@ export function TransmissionScreen({
             padding: "18px 26px",
             borderBottom: "1px solid var(--border-card)",
             background: "var(--surface-card)",
+            flexWrap: "wrap",
           }}
         >
           <div
@@ -177,7 +178,7 @@ export function TransmissionScreen({
           </button>
         </div>
 
-        <div className="nn-scroll" style={{ flex: 1, overflowY: "auto", padding: "22px 26px", background: "var(--bg)" }}>
+        <div className="nn-scroll nn-transmission-fields-scroll" style={{ flex: 1, overflowY: "auto", padding: "22px 26px", background: "var(--bg)" }}>
           {reviewLowShow && (
             <div
               style={{
@@ -255,7 +256,7 @@ export function TransmissionScreen({
             </div>
           )}
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px,1fr))", gap: 14 }}>
             <div
               style={{
                 gridColumn: "1 / -1",
@@ -327,6 +328,7 @@ export function TransmissionScreen({
       </div>
 
       <div
+        className="nn-transmission-voice"
         style={{
           width: 320,
           flex: "none",
@@ -405,7 +407,7 @@ export function TransmissionScreen({
           Transcription en direct
         </div>
         <div
-          className="nn-scroll"
+          className="nn-scroll nn-transmission-voice-transcript"
           style={{
             flex: 1,
             marginTop: 8,

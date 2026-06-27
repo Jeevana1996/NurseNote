@@ -5,7 +5,7 @@ export function HistoryScreen() {
   const [view, setView] = useState<"month" | "year">("month");
 
   return (
-    <div className="nn-scroll nn-rise" style={{ flex: 1, overflowY: "auto", padding: "30px 34px" }}>
+    <div className="nn-scroll nn-rise nn-screen-pad" style={{ flex: 1, overflowY: "auto", padding: "30px 34px" }}>
       <div style={{ fontFamily: "var(--font-serif)", fontSize: 27, fontWeight: 500 }}>Historique des transmissions</div>
       <div style={{ fontSize: 13, color: "var(--text-secondary)", marginTop: 4 }}>
         Vos transmissions, consultables jusqu'à 1 an en arrière.
@@ -99,7 +99,7 @@ export function HistoryScreen() {
           ))}
         </div>
       ) : (
-        <div style={{ marginTop: 20, display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 12, maxWidth: 760 }}>
+        <div style={{ marginTop: 20, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px,1fr))", gap: 12, maxWidth: 760 }}>
           {historyMonths.map((m) => (
             <div
               key={m.label}
