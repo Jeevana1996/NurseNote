@@ -1,8 +1,9 @@
 import { useState } from "react";
 import type { FieldKey, Patient } from "../types";
-import { useDictation } from "../hooks/useDictation";
+import { useDictation, speechRecognitionSupported } from "../hooks/useDictation";
 import { FieldCard } from "../components/FieldCard";
 import { ConstantesCard } from "../components/ConstantesCard";
+import { CommentCard } from "../components/CommentCard";
 
 const FIELD_LABELS: Record<FieldKey, string> = {
   antecedents: "Antécédents",
@@ -16,26 +17,30 @@ export function TransmissionScreen({
   patient,
   onBack,
   onSend,
+  onUpdateComment,
   dpiPending,
 }: {
   patient: Patient;
   onBack: () => void;
   onSend: () => void;
+  onUpdateComment: (commentaire: string) => void;
   dpiPending: boolean;
 }) {
   const [backHover, setBackHover] = useState(false);
   const dictation = useDictation(patient);
 
   const isFait = patient.status === "fait";
-  const { status, transcript, filled, activeField, savedAt } = dictation.state;
+  const { status, transcript, filled, fieldText, activeField, savedAt, error } = dictation.state;
   const isActivelyDictating = status === "waking" || status === "listening";
 
   const fieldFilled = (field: FieldKey) => isFait || !!filled[field];
+  const fieldContent = (field: Exclude<FieldKey, "constantes">) => fieldText[field] ?? patient[field];
 
   const flag = patient.lowConfidenceTerm ?? null;
-  const reviewLowShow = status === "complete" && !!flag;
-  const reviewHighShow = status === "complete" && !flag;
-  const reviewPct = flag ? "96 %" : "99 %";
+  const flagFound = !!flag && Object.values(fieldText).some((t) => t.toLowerCase().includes(flag.toLowerCase()));
+  const reviewLowShow = status === "complete" && flagFound;
+  const reviewHighShow = status === "complete" && !flagFound;
+  const reviewPct = flagFound ? "96 %" : "99 %";
 
   const canSave = !dpiPending && !isActivelyDictating && (status === "complete" || Object.keys(filled).length > 0);
 
@@ -275,14 +280,14 @@ export function TransmissionScreen({
             <FieldCard
               label="ANTÉCÉDENTS"
               filled={fieldFilled("antecedents")}
-              text={patient.antecedents}
+              text={fieldContent("antecedents")}
               flagTerm={flag}
               active={activeField === "antecedents"}
             />
             <FieldCard
               label="TRAITEMENTS EN COURS"
               filled={fieldFilled("traitements")}
-              text={patient.traitements}
+              text={fieldContent("traitements")}
               flagTerm={flag}
               active={activeField === "traitements"}
             />
@@ -297,7 +302,7 @@ export function TransmissionScreen({
               <FieldCard
                 label="EXAMENS / RÉSULTATS EN ATTENTE"
                 filled={fieldFilled("examens")}
-                text={patient.examens}
+                text={fieldContent("examens")}
                 flagTerm={flag}
                 active={activeField === "examens"}
                 alertDot={patient.examAlert}
@@ -308,13 +313,14 @@ export function TransmissionScreen({
               <FieldCard
                 label="SURVEILLANCE & TRANSMISSIONS POUR LA RELÈVE"
                 filled={fieldFilled("surveillance")}
-                text={patient.surveillance}
+                text={fieldContent("surveillance")}
                 flagTerm={flag}
                 active={activeField === "surveillance"}
                 fullWidth
                 lineHeight={1.6}
               />
             </div>
+            <CommentCard value={patient.commentaire ?? ""} onChange={onUpdateComment} />
           </div>
           <div style={{ height: 20 }} />
         </div>
@@ -339,7 +345,7 @@ export function TransmissionScreen({
 
         <div style={{ marginTop: 24, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <div
-            onClick={handleMicToggle}
+            onClick={speechRecognitionSupported ? handleMicToggle : undefined}
             className={isActivelyDictating ? "nn-pulse" : undefined}
             style={{
               width: 80,
@@ -348,7 +354,8 @@ export function TransmissionScreen({
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              cursor: "pointer",
+              cursor: speechRecognitionSupported ? "pointer" : "not-allowed",
+              opacity: speechRecognitionSupported ? 1 : 0.45,
               transition: "all .2s",
               background: isActivelyDictating ? "var(--alert)" : "var(--accent)",
               boxShadow: isActivelyDictating ? undefined : "0 8px 22px rgba(203,124,90,0.4)",
@@ -360,7 +367,11 @@ export function TransmissionScreen({
             </svg>
           </div>
           <div style={{ fontSize: 13, fontWeight: 500, marginTop: 15, opacity: 0.92 }}>
-            {isActivelyDictating ? "À l'écoute…" : "Toucher pour dicter"}
+            {!speechRecognitionSupported
+              ? "Indisponible sur ce navigateur"
+              : isActivelyDictating
+                ? "À l'écoute…"
+                : "Toucher pour dicter"}
           </div>
           {status === "waking" && (
             <div
@@ -375,6 +386,17 @@ export function TransmissionScreen({
               }}
             >
               « Ok connect »
+            </div>
+          )}
+          {error && (
+            <div style={{ marginTop: 10, fontSize: 11.5, color: "#E8B4A4", textAlign: "center", lineHeight: 1.45 }}>
+              {error}
+            </div>
+          )}
+          {speechRecognitionSupported && !error && (
+            <div style={{ marginTop: 10, fontSize: 11, opacity: 0.6, textAlign: "center", lineHeight: 1.5 }}>
+              Dites « antécédents », « traitements », « constantes », « examens » ou « surveillance » pour remplir chaque
+              rubrique.
             </div>
           )}
         </div>
@@ -414,7 +436,8 @@ export function TransmissionScreen({
             </>
           ) : (
             <span style={{ opacity: 0.5 }}>
-              Touchez le micro et dictez votre transmission. Les champs se remplissent automatiquement.
+              Touchez le micro, dites « Ok connect », puis dictez votre transmission. Les champs se remplissent
+              automatiquement.
             </span>
           )}
         </div>

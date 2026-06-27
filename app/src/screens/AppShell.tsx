@@ -14,10 +14,12 @@ type MainView = "patients" | "history" | "colleagues";
 export function AppShell({
   patients,
   onMarkSent,
+  onUpdateComment,
   onLogout,
 }: {
   patients: Patient[];
   onMarkSent: (id: string) => void;
+  onUpdateComment: (id: string, commentaire: string) => void;
   onLogout: () => void;
 }) {
   const [mainView, setMainView] = useState<MainView>("patients");
@@ -50,6 +52,7 @@ export function AppShell({
       <Sidebar
         view={selectedPatient ? "transmission" : mainView}
         onNavigate={handleNavigate}
+        onNavigateHome={() => handleNavigate("patients")}
         onOpenAssistant={() => setAssistantOpen(true)}
         onLogout={onLogout}
         simulateDpiError={simulateDpiError}
@@ -63,6 +66,7 @@ export function AppShell({
             patient={selectedPatient}
             onBack={handleBackToPatients}
             onSend={() => dpi.send(selectedPatient.chambre, simulateDpiError)}
+            onUpdateComment={(commentaire) => onUpdateComment(selectedPatient.id, commentaire)}
             dpiPending={dpi.state.status !== "idle"}
           />
         ) : mainView === "patients" ? (

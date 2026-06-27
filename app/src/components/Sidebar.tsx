@@ -43,6 +43,7 @@ function NavItem({
 export function Sidebar({
   view,
   onNavigate,
+  onNavigateHome,
   onOpenAssistant,
   onLogout,
   simulateDpiError,
@@ -50,6 +51,7 @@ export function Sidebar({
 }: {
   view: View;
   onNavigate: (v: "patients" | "history" | "colleagues") => void;
+  onNavigateHome: () => void;
   onOpenAssistant: () => void;
   onLogout: () => void;
   simulateDpiError: boolean;
@@ -57,6 +59,7 @@ export function Sidebar({
 }) {
   const [assistantHover, setAssistantHover] = useState(false);
   const [logoutHover, setLogoutHover] = useState(false);
+  const [homeHover, setHomeHover] = useState(false);
 
   return (
     <div
@@ -71,7 +74,24 @@ export function Sidebar({
         flex: "none",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "0 6px 18px" }}>
+      <div
+        onClick={onNavigateHome}
+        onMouseEnter={() => setHomeHover(true)}
+        onMouseLeave={() => setHomeHover(false)}
+        title="Accueil"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          padding: "0 6px 18px",
+          margin: "-2px -6px 0",
+          paddingTop: 2,
+          borderRadius: 12,
+          cursor: "pointer",
+          opacity: homeHover ? 0.85 : 1,
+          transition: "opacity .15s",
+        }}
+      >
         <Logo size={34} radius={10} />
         <div>
           <div style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-0.01em" }}>NurseNotes</div>

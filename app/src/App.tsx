@@ -15,11 +15,22 @@ export default function App() {
     setPatients((prev) => prev.map((p) => (p.id === id ? { ...p, status: "fait" } : p)));
   };
 
+  const handleUpdateComment = (id: string, commentaire: string) => {
+    setPatients((prev) => prev.map((p) => (p.id === id ? { ...p, commentaire } : p)));
+  };
+
   if (screen === "login") {
     return <LoginScreen onLogin={() => setScreen("service")} />;
   }
   if (screen === "service") {
     return <ServiceScreen onSelect={() => setScreen("app")} />;
   }
-  return <AppShell patients={patients} onMarkSent={handleMarkSent} onLogout={() => setScreen("login")} />;
+  return (
+    <AppShell
+      patients={patients}
+      onMarkSent={handleMarkSent}
+      onUpdateComment={handleUpdateComment}
+      onLogout={() => setScreen("login")}
+    />
+  );
 }

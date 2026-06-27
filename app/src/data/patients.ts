@@ -15,15 +15,6 @@ export const patients: Patient[] = [
     examens: "Bilan sanguin réalisé ce matin — résultats à récupérer",
     examAlert: true,
     surveillance: "Patient stable. Surveiller la prise de poids et les œdèmes des membres inférieurs.",
-    dictation:
-      "Monsieur Lefèvre chambre 12 admis pour insuffisance cardiaque décompensée. Antécédents d'hypertension artérielle et de fibrillation auriculaire. Traitement en cours par Furosémide 40 milligrammes et Bisoprolol 5 milligrammes. Tension 11 sur 7, fréquence cardiaque 88, saturation 94 pour cent sous 2 litres. Diurèse 1200 millilitres sur 12 heures. Bilan sanguin réalisé ce matin, résultats en attente, penser à les récupérer à la relève. Patient stable, surveiller la prise de poids et les œdèmes des membres inférieurs.",
-    steps: [
-      { field: "antecedents", trigger: "auriculaire" },
-      { field: "traitements", trigger: "Bisoprolol 5 milligrammes" },
-      { field: "constantes", trigger: "12 heures" },
-      { field: "examens", trigger: "relève" },
-      { field: "surveillance", trigger: "inférieurs" },
-    ],
     lowConfidenceTerm: "ACFA",
   },
   {
@@ -40,15 +31,6 @@ export const patients: Patient[] = [
     examens: "ECG de contrôle à prévoir cet après-midi",
     examAlert: false,
     surveillance: "Surveiller la fréquence cardiaque. Signaler toute douleur thoracique.",
-    dictation:
-      "Madame Morel chambre 13 fibrillation auriculaire rapide. Antécédents d'AVC ischémique en 2019. Traitement par Apixaban et Amiodarone. Tension 13 sur 8, fréquence cardiaque 110, saturation 96. Diurèse correcte. ECG de contrôle à prévoir cet après-midi. Surveiller la fréquence et signaler toute douleur thoracique.",
-    steps: [
-      { field: "antecedents", trigger: "en 2019" },
-      { field: "traitements", trigger: "Amiodarone" },
-      { field: "constantes", trigger: "correcte" },
-      { field: "examens", trigger: "après-midi" },
-      { field: "surveillance", trigger: "thoracique" },
-    ],
     lowConfidenceTerm: "Amiodarone",
   },
   {
@@ -65,15 +47,6 @@ export const patients: Patient[] = [
     examens: "Point de ponction radial propre, sans hématome",
     examAlert: false,
     surveillance: "Surveiller le point de ponction et la douleur thoracique.",
-    dictation:
-      "Monsieur Girard chambre 14 syndrome coronarien post-angioplastie à J1. Antécédents de tabagisme et dyslipidémie. Traitement par Aspirine, Ticagrelor et Atorvastatine. Tension 12 sur 7, fréquence 72, saturation 98. Point de ponction radial propre sans hématome. Surveiller le point de ponction et la douleur thoracique.",
-    steps: [
-      { field: "antecedents", trigger: "dyslipidémie" },
-      { field: "traitements", trigger: "Atorvastatine" },
-      { field: "constantes", trigger: "saturation 98" },
-      { field: "examens", trigger: "hématome" },
-      { field: "surveillance", trigger: "thoracique" },
-    ],
     lowConfidenceTerm: "Ticagrelor",
   },
   {
@@ -90,15 +63,6 @@ export const patients: Patient[] = [
     examens: "Gaz du sang de contrôle en attente",
     examAlert: true,
     surveillance: "Surveiller la saturation et la dyspnée.",
-    dictation:
-      "Madame Petit chambre 15 œdème aigu du poumon résolutif. Antécédents d'insuffisance cardiaque chronique. Traitement par Furosémide intraveineux et oxygénothérapie. Tension 14 sur 9, fréquence 96, saturation 91 sous 3 litres. Diurèse 1800 millilitres sur 12 heures. Gaz du sang de contrôle en attente. Surveiller la saturation et la dyspnée.",
-    steps: [
-      { field: "antecedents", trigger: "chronique" },
-      { field: "traitements", trigger: "oxygénothérapie" },
-      { field: "constantes", trigger: "12 heures" },
-      { field: "examens", trigger: "Gaz du sang" },
-      { field: "surveillance", trigger: "dyspnée" },
-    ],
     lowConfidenceTerm: "Gaz du sang",
   },
   {
@@ -115,8 +79,6 @@ export const patients: Patient[] = [
     examens: "Écho cœur réalisée — pas d'épanchement significatif",
     examAlert: false,
     surveillance: "Douleur soulagée. Surveiller la fièvre.",
-    dictation: "",
-    steps: [],
   },
   {
     id: "p6",
@@ -132,8 +94,6 @@ export const patients: Patient[] = [
     examens: "Bilan rénal réalisé — résultats normaux",
     examAlert: false,
     surveillance: "TA en baisse. Contrôle tensionnel toutes les 4h.",
-    dictation: "",
-    steps: [],
   },
   {
     id: "p7",
@@ -149,8 +109,6 @@ export const patients: Patient[] = [
     examens: "Radio thorax de contrôle — sonde en place",
     examAlert: false,
     surveillance: "Pansement propre. Bras gauche au repos.",
-    dictation: "",
-    steps: [],
   },
   {
     id: "p8",
@@ -166,7 +124,5 @@ export const patients: Patient[] = [
     examens: "Troponines négatives x2 — ECG normal",
     examAlert: false,
     surveillance: "Douleur résolue. Sortie envisagée demain.",
-    dictation: "",
-    steps: [],
   },
 ];

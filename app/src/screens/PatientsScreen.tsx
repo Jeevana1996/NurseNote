@@ -115,7 +115,7 @@ export function PatientsScreen({
             <path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path>
           </svg>
           <span style={{ fontSize: 13, color: "var(--brand-soft-text)", fontWeight: 500 }}>
-            Dites « <b>Ok connect</b> » ou touchez un patient
+            Touchez un patient pour dicter sa transmission
           </span>
         </div>
       </div>

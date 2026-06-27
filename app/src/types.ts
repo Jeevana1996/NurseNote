@@ -17,11 +17,6 @@ export interface Constantes {
   diurese: string;
 }
 
-export interface DictationStep {
-  field: FieldKey;
-  trigger: string;
-}
-
 export interface Patient {
   id: string;
   chambre: string;
@@ -36,10 +31,9 @@ export interface Patient {
   examens: string;
   examAlert: boolean;
   surveillance: string;
-  dictation: string;
-  steps: DictationStep[];
-  /** Medical term in this patient's dictation that the speech recognizer flags as low-confidence. */
+  /** Medical term flagged for review if the nurse's dictation contains it. */
   lowConfidenceTerm?: string;
+  commentaire?: string;
 }
 
 export interface Drug {
@@ -69,6 +63,9 @@ export interface ColleagueEntry {
   chambre: string;
   nom: string;
   note: string;
+  statut: "stable" | "a_surveiller" | "sortie_prevue";
+  heure: string;
+  detail: string;
 }
 
 export interface Colleague {
