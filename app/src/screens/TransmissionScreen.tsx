@@ -27,6 +27,7 @@ export function TransmissionScreen({
   dpiPending: boolean;
 }) {
   const [backHover, setBackHover] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const dictation = useDictation(patient);
 
   const isFait = patient.status === "fait";
@@ -109,18 +110,14 @@ export function TransmissionScreen({
               {patient.chambre}
             </div>
           </div>
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 8, minWidth: 0 }}>
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <div style={{ display: "flex", alignItems: "baseline", flexWrap: "wrap", gap: 8 }}>
               <span
                 style={{
                   fontFamily: "var(--font-serif)",
                   fontSize: 21,
                   fontWeight: 500,
                   lineHeight: 1.2,
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  minWidth: 0,
                 }}
               >
                 {patient.civilite} {patient.nom}
@@ -132,52 +129,53 @@ export function TransmissionScreen({
                 fontSize: 13,
                 color: "var(--accent-soft-text)",
                 fontWeight: 500,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                lineHeight: 1.4,
               }}
             >
               {patient.motif}
             </div>
           </div>
-          {savedAt && (
-            <div
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginLeft: "auto", flex: "none" }}>
+            {savedAt && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 6,
+                  fontSize: 11.5,
+                  fontWeight: 500,
+                  color: "var(--brand-soft-text)",
+                  background: "var(--brand-soft-bg-2)",
+                  border: "1px solid var(--brand-soft-border)",
+                  padding: "7px 12px",
+                  borderRadius: 9,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+                Brouillon auto · {savedAt}
+              </div>
+            )}
+            <button
+              onClick={handleSave}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 6,
-                fontSize: 11.5,
-                fontWeight: 500,
-                color: "var(--brand-soft-text)",
-                background: "var(--brand-soft-bg-2)",
-                border: "1px solid var(--brand-soft-border)",
-                padding: "7px 12px",
-                borderRadius: 9,
+                padding: "10px 17px",
+                borderRadius: 13,
+                fontWeight: 600,
+                fontSize: 13.5,
+                cursor: canSave ? "pointer" : "not-allowed",
+                border: "none",
+                background: canSave ? "var(--brand)" : "#EAE3D6",
+                color: canSave ? "var(--bg)" : "#B0A892",
+                boxShadow: canSave ? "0 6px 16px rgba(46,125,107,0.26)" : undefined,
                 whiteSpace: "nowrap",
               }}
             >
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.6} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-              Brouillon auto · {savedAt}
-            </div>
-          )}
-          <button
-            onClick={handleSave}
-            style={{
-              padding: "10px 17px",
-              borderRadius: 13,
-              fontWeight: 600,
-              fontSize: 13.5,
-              cursor: canSave ? "pointer" : "not-allowed",
-              border: "none",
-              background: canSave ? "var(--brand)" : "#EAE3D6",
-              color: canSave ? "var(--bg)" : "#B0A892",
-              boxShadow: canSave ? "0 6px 16px rgba(46,125,107,0.26)" : undefined,
-            }}
-          >
-            {isFait ? "Mettre à jour" : "Envoyer au dossier patient"}
-          </button>
+              {isFait ? "Mettre à jour" : "Envoyer au dossier patient"}
+            </button>
+          </div>
         </div>
 
         <div className="nn-scroll nn-transmission-fields-scroll" style={{ flex: 1, overflowY: "auto", padding: "22px 26px", background: "var(--bg)" }}>
@@ -408,16 +406,55 @@ export function TransmissionScreen({
             </div>
           )}
           {speechRecognitionSupported && !error && (
-            <div style={{ marginTop: 10, fontSize: 11, opacity: 0.6, textAlign: "center", lineHeight: 1.5 }}>
-              Dites « antécédents », « traitements », « constantes », « examens » ou « surveillance » pour remplir chaque
-              rubrique. Dans « constantes », précisez « tension », « fréquence », « saturation », « oxygène » ou «
-              diurèse » pour chaque valeur. Vous pouvez arrêter puis reprendre la dictée rubrique par rubrique : rien
-              n'est effacé entre deux prises de parole.
+            <div style={{ marginTop: 10, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+              <span style={{ fontSize: 11, opacity: 0.7 }}>Dites une rubrique pour la remplir</span>
+              <button
+                type="button"
+                onClick={() => setShowHelp((v) => !v)}
+                title="Aide"
+                style={{
+                  width: 16,
+                  height: 16,
+                  flex: "none",
+                  borderRadius: "50%",
+                  border: "1px solid rgba(250,246,239,0.5)",
+                  background: showHelp ? "rgba(250,246,239,0.18)" : "transparent",
+                  color: "var(--bg)",
+                  fontSize: 10,
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  padding: 0,
+                }}
+              >
+                ?
+              </button>
             </div>
           )}
-          <div style={{ marginTop: 10, fontSize: 11, opacity: 0.6, textAlign: "center", lineHeight: 1.5 }}>
-            Sur chaque rubrique, utilisez le crayon pour écrire ou corriger à la main, et la corbeille pour l'effacer.
-          </div>
+          {speechRecognitionSupported && !error && showHelp && (
+            <div
+              style={{
+                marginTop: 9,
+                fontSize: 11,
+                opacity: 0.75,
+                textAlign: "center",
+                lineHeight: 1.5,
+                background: "rgba(250,246,239,0.08)",
+                border: "1px solid rgba(250,246,239,0.18)",
+                borderRadius: 10,
+                padding: "9px 12px",
+              }}
+            >
+              Dites « antécédents », « traitements », « constantes », « examens » ou « surveillance » pour remplir
+              chaque rubrique. Dans « constantes », précisez « tension », « fréquence », « saturation », « oxygène »
+              ou « diurèse » pour chaque valeur. Vous pouvez arrêter puis reprendre la dictée rubrique par rubrique :
+              rien n'est effacé entre deux prises de parole. Sur chaque rubrique, le crayon permet d'écrire ou de
+              corriger à la main, et la corbeille d'effacer.
+            </div>
+          )}
         </div>
 
         <div style={{ marginTop: 24, fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.12em", opacity: 0.55 }}>
